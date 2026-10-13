@@ -1,0 +1,1629 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="An interactive course that reads the playlist I win as an education of the soul: the research on playlists, Spotify's listener profiles, the order, the themes, Jung's figures and a live shuffle lab.">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>An Education of the Soul</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Libre+Caslon+Display&display=swap">
+<style>
+/* Layout: a syllabus. A sticky course map sits in the left margin; the reading column holds ~66ch of prose; figures widen to the full measure. */
+:root {
+  --paper: #f6f5f7;
+  --sheet: #fdfcfd;
+  --ink: #17151c;
+  --ink-2: #4b4754;
+  --muted: #736e7c;
+  --rule: #e3e0e8;
+  --rule-2: #cdc9d4;
+  --accent: #5a3f8e;
+  --accent-ink: #ffffff;
+  --accent-soft: #ece7f5;
+  --them: #eb6834;
+  --you: #2a78d6;
+  --us: #1baf7a;
+  --self: #3d3c38;
+  --none: #d6d3db;
+  --hatch: #9d99a6;
+  --good: #0a8f0a;
+  --bad: #d03b3b;
+  --band: rgba(23, 21, 28, 0.035);
+  --heat-rgb: 23, 21, 28;
+  --tip-bg: #17151c;
+  --tip-fg: #f6f5f7;
+  --f-display: "Libre Caslon Display", "Libre Caslon Text", Georgia, "Times New Roman", serif;
+  --f-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #131217; --sheet: #1b1a20; --ink: #f0eef3; --ink-2: #c8c4d0; --muted: #9a95a3; --rule: #2d2b34; --rule-2: #45424d;
+    --accent: #b9a5ea; --accent-ink: #17151c; --accent-soft: #272137;
+    --them: #d95926; --you: #3987e5; --us: #199e70; --self: #c3c2b7; --none: #3d3a44; --hatch: #6f6a78;
+    --good: #2fbf2f; --bad: #e66767; --band: rgba(240, 238, 243, 0.04); --heat-rgb: 240, 238, 243;
+    --tip-bg: #f0eef3; --tip-fg: #17151c; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #131217; --sheet: #1b1a20; --ink: #f0eef3; --ink-2: #c8c4d0; --muted: #9a95a3; --rule: #2d2b34; --rule-2: #45424d;
+  --accent: #b9a5ea; --accent-ink: #17151c; --accent-soft: #272137;
+  --them: #d95926; --you: #3987e5; --us: #199e70; --self: #c3c2b7; --none: #3d3a44; --hatch: #6f6a78;
+  --good: #2fbf2f; --bad: #e66767; --band: rgba(240, 238, 243, 0.04); --heat-rgb: 240, 238, 243;
+  --tip-bg: #f0eef3; --tip-fg: #17151c; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+body { background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 17px; line-height: 1.6; }
+a { color: var(--accent); text-underline-offset: 3px; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 44px); }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+h1, h2 { font-family: var(--f-display); font-weight: 400; text-wrap: balance; letter-spacing: -0.01em; margin: 0; }
+h1 { font-size: clamp(2.7rem, 7vw, 4.6rem); line-height: 1.02; }
+h2 { font-size: clamp(1.9rem, 4vw, 2.7rem); line-height: 1.08; }
+h3 { font-size: 1.02rem; margin: 0; letter-spacing: 0.01em; }
+p { margin: 0; }
+.prose { max-width: 66ch; display: grid; gap: 14px; }
+.prose em, .t { font-style: italic; }
+.num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+
+/* ---------- cover */
+.cover { padding-block: clamp(36px, 7vw, 76px) 28px; display: grid; gap: 18px; }
+.cover, .module, .mod-head, .figure, .courseline, .lens, .themecard { grid-template-columns: minmax(0, 1fr); }
+.cover .sub { font-size: clamp(1.1rem, 2.2vw, 1.35rem); color: var(--ink-2); max-width: 46ch; text-wrap: balance; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--f-mono); font-size: 13px; color: var(--ink-2); }
+.meta span b { color: var(--ink); font-weight: 500; }
+.thesis { max-width: 64ch; font-size: 1.08rem; }
+.courseline { margin-top: 10px; display: grid; gap: 8px; }
+.cl-row { display: flex; gap: 7px; align-items: stretch; height: 64px; }
+.cl-sec { display: flex; gap: 2px; flex-grow: var(--n); flex-basis: 0; min-width: 0; }
+.cl-bar { flex: 1; min-width: 0; border: 0; padding: 0; border-radius: 3px 3px 1px 1px; cursor: pointer; background: var(--c); position: relative; }
+.cl-bar:hover { filter: brightness(1.12); }
+.cl-labels { display: flex; gap: 7px; }
+.cl-labels span { flex-grow: var(--n); flex-basis: 0; min-width: 0; font-family: var(--f-mono); font-size: 11px; color: var(--muted); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.act { background-image: repeating-linear-gradient(135deg, transparent 0 3px, var(--hatch) 3px 4.5px) !important; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink-2); align-items: center; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; vertical-align: -1px; margin-right: 6px; background: var(--c); }
+.legend i.line { height: 3px; width: 18px; border-radius: 2px; vertical-align: 3px; }
+.legend i.dash { height: 0; width: 18px; border-top: 2.5px dashed var(--c); background: none; vertical-align: 3px; }
+.cta { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); text-decoration: none; font-weight: 700; font-size: 15px; justify-self: start; }
+
+/* ---------- layout with course map */
+.layout { display: grid; grid-template-columns: 196px minmax(0, 1fr); gap: 56px; padding-bottom: 80px; }
+.map { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start; display: grid; gap: 12px; padding-top: 6px; }
+.map ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.map a { display: grid; grid-template-columns: 22px 1fr; gap: 6px; padding: 6px 8px; border-radius: 6px; text-decoration: none; color: var(--ink-2); font-size: 14px; line-height: 1.3; }
+.map a .n { font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding-top: 1px; }
+.map a:hover { background: var(--accent-soft); color: var(--ink); }
+.map a.on { background: var(--accent-soft); color: var(--ink); font-weight: 700; }
+.map a.on .n { color: var(--accent); }
+.progress { height: 3px; background: var(--rule); border-radius: 2px; overflow: hidden; }
+.progress div { height: 100%; width: 0; background: var(--accent); }
+main { min-width: 0; display: grid; gap: 92px; }
+.module { display: grid; gap: 26px; scroll-margin-top: 24px; min-width: 0; }
+.mod-head { display: grid; gap: 12px; padding-top: 22px; border-top: 1px solid var(--rule-2); }
+.mod-head .eyebrow b { color: var(--accent); font-weight: 500; }
+.short { display: grid; gap: 4px; max-width: 62ch; }
+.short p { font-size: 1.16rem; line-height: 1.5; }
+.short .eyebrow { color: var(--accent); }
+.figure { display: grid; gap: 12px; min-width: 0; }
+.figure .cap { font-size: 13.5px; color: var(--muted); max-width: 80ch; }
+.panel { background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px; padding: clamp(14px, 2.4vw, 22px); min-width: 0; }
+.scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; }
+.seg { display: inline-flex; border: 1px solid var(--rule-2); border-radius: 8px; overflow: hidden; }
+.seg button { border: 0; background: transparent; padding: 7px 12px; font-size: 14px; cursor: pointer; color: var(--ink-2); }
+.seg button + button { border-left: 1px solid var(--rule-2); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.btn { border: 1px solid var(--rule-2); background: var(--sheet); border-radius: 8px; padding: 7px 12px; font-size: 14px; cursor: pointer; }
+.btn:hover { border-color: var(--ink-2); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+.toggle { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink-2); cursor: pointer; }
+.toggle input { width: 16px; height: 16px; accent-color: var(--accent); }
+.remember { background: var(--accent-soft); border-radius: 10px; padding: 18px 20px; display: grid; gap: 8px; max-width: 70ch; }
+.remember ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(186px, 1fr)); gap: 14px; }
+.lens { display: grid; gap: 8px; align-content: start; }
+.lens .k { font-family: var(--f-mono); font-size: 12px; color: var(--accent); }
+.lens p { font-size: 15px; color: var(--ink-2); }
+.fig4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 14px; }
+.fig4 .panel { display: grid; gap: 6px; align-content: start; }
+.fig4 .key { height: 4px; border-radius: 2px; background: var(--c); }
+.fig4 .key.dashed { background: repeating-linear-gradient(90deg, var(--c) 0 7px, transparent 7px 11px); }
+.fig4 .nm { display: flex; align-items: baseline; gap: 8px; }
+.fig4 .nm b { font-family: var(--f-display); font-weight: 400; font-size: 1.5rem; }
+.fig4 .nm span { color: var(--muted); font-size: 14px; }
+.fig4 p { font-size: 15px; color: var(--ink-2); }
+.fig4 .th { font-size: 13px; color: var(--muted); }
+.quote-mark { font-family: var(--f-display); }
+
+/* hornbook */
+.hornbook { justify-self: start; display: grid; justify-items: center; max-width: 560px; }
+.hornbook .board { background: var(--sheet); border: 1px solid var(--rule-2); border-radius: 14px 14px 10px 10px; padding: 22px 26px; display: grid; gap: 10px; box-shadow: 0 1px 0 var(--rule); }
+.hornbook .board p { font-family: var(--f-display); font-size: 1.28rem; line-height: 1.38; }
+.hornbook .board small { color: var(--muted); font-size: 13px; }
+.hornbook .handle { width: 64px; height: 34px; background: var(--sheet); border: 1px solid var(--rule-2); border-top: 0; border-radius: 0 0 12px 12px; margin-top: -1px; }
+
+/* strip (module 2) */
+.strip { min-width: 760px; display: grid; gap: 6px; }
+.strip-secs { display: flex; gap: 8px; }
+.strip-sec { flex-grow: var(--n); flex-basis: 0; min-width: 0; display: grid; gap: 4px; align-content: end; }
+.strip-sec .lab { font-size: 12px; color: var(--ink-2); line-height: 1.2; min-height: 30px; display: flex; align-items: end; overflow: hidden; }
+.strip-sec .lab b { font-family: var(--f-mono); font-weight: 500; color: var(--accent); margin-right: 5px; }
+.lane { display: flex; gap: 3px; }
+.lanes { display: grid; gap: 4px; }
+.lane-name { font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
+.tile { flex: 1; min-width: 0; height: 34px; border-radius: 4px; border: 0; padding: 0; cursor: pointer; background: var(--c); color: #fff; font-family: var(--f-mono); font-size: 11px; font-weight: 500; display: grid; place-items: center; position: relative; }
+.tile.self, .tile.none { color: var(--paper); }
+.tile.none { color: var(--ink-2); }
+.tile.ghost { background: transparent; cursor: default; }
+.tile.sel { outline: 2.5px solid var(--ink); outline-offset: 2px; z-index: 1; }
+.tile:not(.ghost):hover { filter: brightness(1.1); }
+.nums { display: flex; gap: 3px; }
+.nums span { flex: 1; min-width: 0; text-align: center; font-family: var(--f-mono); font-size: 10.5px; color: var(--muted); }
+.songcard { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 22px; }
+.songcard .t1 { font-family: var(--f-display); font-size: 1.7rem; line-height: 1.1; }
+.songcard .by { color: var(--muted); font-size: 14px; }
+.songcard dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; font-size: 14.5px; }
+.songcard dt { color: var(--muted); }
+.songcard dd { margin: 0; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px 2px 7px; border-radius: 999px; background: var(--paper); border: 1px solid var(--rule); font-size: 13.5px; }
+.chip i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); display: inline-block; }
+.mini { display: grid; gap: 6px; }
+.mini .row { display: grid; grid-template-columns: 9.5em 1fr 3.2em; gap: 8px; align-items: center; font-size: 13.5px; }
+.mini .bar { height: 8px; border-radius: 0 3px 3px 0; background: var(--ink-2); }
+.mini .v { text-align: right; font-family: var(--f-mono); font-size: 12.5px; color: var(--ink-2); }
+@media (max-width: 720px) { .songcard { grid-template-columns: 1fr; } }
+
+/* address by lesson */
+.abl { display: grid; gap: 7px; }
+.abl .row { display: grid; grid-template-columns: minmax(118px, 13em) minmax(0, 1fr) 2.6em; gap: 10px; align-items: center; font-size: 14px; }
+.abl .row .nm b { font-family: var(--f-mono); font-weight: 500; color: var(--accent); margin-right: 4px; }
+.abl .bar { display: flex; gap: 2px; height: 22px; }
+.abl .seg2 { background: var(--c); border-radius: 2px; display: grid; place-items: center; font-family: var(--f-mono); font-size: 11.5px; color: #fff; min-width: 0; overflow: hidden; cursor: default; }
+.abl .seg2.self, .abl .seg2.none { color: var(--paper); }
+.abl .seg2.none { color: var(--ink-2); }
+.abl .n { font-family: var(--f-mono); font-size: 12px; color: var(--muted); text-align: right; }
+
+/* lesson viewer */
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.tabs button { border: 1px solid var(--rule-2); background: var(--sheet); border-radius: 8px; padding: 6px 10px; cursor: pointer; font-size: 13.5px; display: inline-flex; gap: 6px; align-items: baseline; }
+.tabs button b { font-family: var(--f-mono); font-weight: 500; color: var(--accent); }
+.tabs button[aria-selected="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.tabs button[aria-selected="true"] b { color: var(--paper); }
+.tabs .term { font-family: var(--f-mono); font-size: 11px; color: var(--muted); align-self: center; padding: 0 4px 0 2px; }
+.lesson { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 28px; }
+.lesson .lt { font-family: var(--f-display); font-size: clamp(1.7rem, 3.4vw, 2.3rem); line-height: 1.1; }
+.lesson .blk { display: grid; gap: 4px; }
+.lesson .blk h3 { font-family: var(--f-mono); font-weight: 500; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.lesson .blk ul { margin: 0; padding-left: 18px; display: grid; gap: 3px; }
+.lesson .side { display: grid; gap: 16px; align-content: start; }
+.figbars { display: grid; gap: 6px; }
+.figbars .row { display: grid; grid-template-columns: 7.6em 1fr 2.8em; gap: 8px; align-items: center; font-size: 13.5px; }
+.figbars .track { position: relative; height: 10px; }
+.figbars .track .b { position: absolute; left: 0; top: 0; bottom: 0; background: var(--c); border-radius: 0 3px 3px 0; }
+.figbars .track .avg { position: absolute; top: -3px; bottom: -3px; width: 0; border-left: 1.5px dashed var(--muted); }
+.figbars .row.dash .b { background: repeating-linear-gradient(90deg, var(--c) 0 6px, transparent 6px 9px); }
+.figbars .v { font-family: var(--f-mono); font-size: 12.5px; text-align: right; color: var(--ink-2); }
+.songlist { display: flex; flex-wrap: wrap; gap: 6px; }
+.lnav { display: flex; justify-content: space-between; gap: 10px; }
+@media (max-width: 760px) { .lesson { grid-template-columns: 1fr; } }
+
+/* heatmap */
+.heat { min-width: 760px; display: grid; gap: 2px; font-size: 13px; }
+.heat .hrow { display: grid; gap: 2px; align-items: stretch; }
+.heat .rl { border: 0; background: transparent; text-align: left; padding: 0 8px 0 0; font-size: 13px; cursor: pointer; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.heat .rl:hover, .heat .hrow.on .rl { color: var(--ink); font-weight: 700; }
+.heat .c { height: 19px; border-radius: 2px; }
+.heat .hrow.on { background: var(--accent-soft); border-radius: 3px; }
+.heat .grp { padding: 8px 0 3px; font-size: 12.5px; color: var(--ink-2); display: flex; align-items: center; gap: 8px; }
+.heat .grp i { width: 14px; height: 4px; border-radius: 2px; background: var(--c); }
+.heat .grp i.dash { background: repeating-linear-gradient(90deg, var(--c) 0 5px, transparent 5px 8px); }
+.heat .hn { font-family: var(--f-mono); font-size: 10px; color: var(--muted); text-align: center; }
+.heatlegend { display: flex; align-items: center; gap: 4px; font-size: 12.5px; color: var(--muted); flex-wrap: wrap; }
+.heatlegend i { width: 22px; height: 12px; border-radius: 2px; display: inline-block; }
+.themecard { display: grid; gap: 10px; }
+.themecard .tn { font-family: var(--f-display); font-size: 1.6rem; line-height: 1.1; }
+.statrow { display: flex; flex-wrap: wrap; gap: 10px 26px; }
+.stat { display: grid; gap: 0; }
+.stat b { font-family: var(--f-mono); font-weight: 500; font-size: 1.25rem; font-variant-numeric: tabular-nums; }
+.stat b.txt { font-family: var(--f-body); font-weight: 700; font-size: 1.05rem; }
+.stat span { font-size: 12.5px; color: var(--muted); }
+
+/* tables */
+table.t2 { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 640px; }
+table.t2 th { text-align: left; font-weight: 700; font-size: 12.5px; color: var(--ink-2); padding: 8px 10px; border-bottom: 1.5px solid var(--rule-2); vertical-align: bottom; }
+table.t2 td { padding: 7px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+table.t2 td.r, table.t2 th.r { text-align: right; font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+table.t2 td.g { font-weight: 700; }
+table.t2 td.g small { display: block; font-weight: 400; color: var(--muted); font-style: italic; }
+table.t2 tr.first td { border-top: 1.5px solid var(--rule-2); }
+table.t2 td .sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; background: var(--c); margin-right: 6px; vertical-align: 0; }
+table.t2 td.lead { font-weight: 700; }
+
+/* line chart */
+.lc svg { display: block; width: 100%; height: auto; overflow: visible; }
+.lc text { font-family: var(--f-mono); font-size: 10.5px; fill: var(--muted); }
+.lc .lab { font-family: var(--f-body); font-size: 12.5px; font-weight: 700; }
+.lc .band { fill: var(--band); }
+.lc .grid { stroke: var(--rule); stroke-width: 1; }
+.lc .avg { stroke: var(--muted); stroke-dasharray: 3 4; stroke-width: 1; }
+.lc .xh { stroke: var(--ink-2); stroke-width: 1; }
+.lc .lnum { font-size: 11px; fill: var(--accent); }
+
+/* counter-magic */
+.cm { min-width: 760px; display: grid; gap: 8px; }
+.cm-groups { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 8px; }
+.cm-g { border-top: 3px solid var(--c); padding-top: 4px; font-size: 12.5px; font-weight: 700; }
+.cm-cards { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 8px; }
+.cm-card { border: 1.5px solid var(--c); border-radius: 8px; background: var(--sheet); padding: 8px; text-align: left; cursor: pointer; display: grid; gap: 4px; align-content: start; min-height: 112px; }
+.cm-card .n { font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
+.cm-card .ttl { font-weight: 700; font-size: 13.5px; line-height: 1.2; }
+.cm-card .op { font-style: italic; font-size: 12.5px; color: var(--ink-2); }
+.cm-card .lg { font-family: var(--f-mono); font-size: 11px; color: var(--muted); margin-top: auto; }
+.cm-card[aria-pressed="true"] { background: var(--accent-soft); box-shadow: 0 0 0 2px var(--c); }
+.cm-detail { display: grid; gap: 6px; }
+
+/* lab */
+.lab-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 22px; }
+@media (max-width: 860px) { .lab-grid { grid-template-columns: 1fr; } }
+.status { font-size: 1.05rem; }
+.status b { font-weight: 700; }
+.ostrip { display: flex; gap: 2px; min-width: 620px; }
+.ostrip .tile { aspect-ratio: auto; height: 30px; font-size: 10.5px; border-radius: 3px; }
+.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.checks li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; align-items: start; padding: 9px 10px; border-radius: 8px; border: 1px solid var(--rule); background: var(--paper); }
+.checks .ic { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 14px; color: #fff; background: var(--bad); }
+.checks li.ok .ic { background: var(--good); }
+.checks .cn { font-weight: 700; font-size: 14.5px; }
+.checks .cn span { font-weight: 400; color: var(--muted); font-size: 12.5px; margin-left: 4px; }
+.checks .cq { font-size: 13px; color: var(--ink-2); }
+.checks .cd { font-family: var(--f-mono); font-size: 12px; color: var(--ink); }
+.score { font-family: var(--f-display); font-size: 2.6rem; line-height: 1; }
+.tally { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 22px; align-items: center; }
+@media (max-width: 760px) { .tally { grid-template-columns: 1fr; } }
+.hist { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; align-items: end; height: 150px; }
+.hist .col { display: grid; gap: 4px; align-items: end; height: 100%; grid-template-rows: 1fr auto; }
+.hist .bars { display: flex; gap: 2px; align-items: end; height: 100%; }
+.hist .bars div { flex: 1; border-radius: 3px 3px 0 0; background: var(--ink-2); position: relative; min-height: 1px; }
+.hist .bars div.you { background: var(--accent); }
+.hist .bars div span { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); font-family: var(--f-mono); font-size: 10.5px; color: var(--ink-2); white-space: nowrap; padding-bottom: 2px; }
+.hist .xl { text-align: center; font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+.hist .xl.cur { color: var(--ink); font-weight: 500; }
+
+/* quiz */
+.quiz { display: grid; gap: 10px; max-width: 70ch; border: 1px dashed var(--rule-2); border-radius: 10px; padding: 16px 18px; }
+.quiz .q { font-weight: 700; }
+.quiz .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.quiz .opts button { border: 1px solid var(--rule-2); background: var(--sheet); border-radius: 8px; padding: 6px 12px; cursor: pointer; font-size: 14.5px; }
+.quiz .opts button.right { border-color: var(--good); box-shadow: inset 0 0 0 1px var(--good); font-weight: 700; }
+.quiz .opts button.wrong { border-color: var(--bad); text-decoration: line-through; color: var(--muted); }
+.quiz .fb { font-size: 14.5px; color: var(--ink-2); min-height: 1.4em; }
+
+ol.steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 12px; max-width: 70ch; }
+ol.steps li { counter-increment: s; display: grid; grid-template-columns: 34px 1fr; gap: 12px; }
+ol.steps li::before { content: counter(s); font-family: var(--f-display); font-size: 1.6rem; line-height: 1; color: var(--accent); }
+ol.steps b { display: block; }
+.coda { font-family: var(--f-display); font-size: clamp(1.3rem, 2.6vw, 1.7rem); line-height: 1.35; max-width: 44ch; text-wrap: balance; }
+.readings { font-size: 13.5px; color: var(--muted); max-width: 90ch; display: grid; gap: 4px; }
+footer { border-top: 1px solid var(--rule-2); padding-block: 22px 40px; font-size: 13px; color: var(--muted); }
+
+
+/* analysis blocks taken from the four-page report */
+.analysis { gap: 12px; }
+.analysis > .eyebrow { color: var(--accent); }
+.analysis p { font-size: 1.04rem; line-height: 1.68; }
+/* concept notes */
+.concepts { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.concept { background: var(--sheet); border: 1px solid var(--rule-2); border-radius: 10px; padding: 16px 18px; display: grid; gap: 10px; align-content: start; scroll-margin-top: 80px; min-width: 0; }
+.concept .c-head { display: grid; gap: 2px; }
+.concept .c-head .eyebrow { color: var(--accent); }
+.concept .c-term { font-family: var(--f-display); font-size: 1.45rem; line-height: 1.12; }
+.concept .c-src { font-size: 13px; color: var(--muted); }
+.concept h4 { margin: 0 0 2px; font-family: var(--f-mono); font-weight: 500; font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.concept p { font-size: 15px; line-height: 1.55; }
+.concept .c-in { border-top: 1px dashed var(--rule-2); padding-top: 10px; }
+.caution { font-size: 14px; color: var(--ink-2); max-width: 70ch; }
+.caution b { color: var(--ink); }
+/* research module */
+.subhead { display: grid; gap: 4px; }
+.subhead .eyebrow { color: var(--accent); }
+.subhead h3 { font-family: var(--f-display); font-weight: 400; font-size: 1.55rem; line-height: 1.15; }
+.pull { font-family: var(--f-display); font-size: 1.3rem; line-height: 1.35; max-width: 40ch; color: var(--ink); padding-left: 18px; border-left: 1px solid var(--rule-2); }
+.pull small { display: block; font-family: var(--f-body); font-size: 13px; color: var(--muted); margin-top: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips button { border: 1px solid var(--rule-2); background: var(--sheet); border-radius: 999px; padding: 4px 11px; font-size: 13px; cursor: pointer; color: var(--ink-2); }
+.chips button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.chips a { border: 1px solid var(--rule-2); background: var(--sheet); border-radius: 999px; padding: 4px 11px; font-size: 13px; color: var(--ink-2); text-decoration: none; }
+.chips a:hover { border-color: var(--accent); color: var(--ink); }
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.timeline li { display: grid; grid-template-columns: 64px 108px minmax(0, 1fr); gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+.timeline .yr { font-family: var(--f-mono); font-size: 13px; color: var(--ink); }
+.timeline .tag { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.timeline .tag i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-right: 6px; vertical-align: 0; }
+.timeline li.me { background: var(--accent-soft); border-radius: 6px; padding-inline: 8px; margin-inline: -8px; }
+.timeline .who { font-size: 15px; }
+.timeline .who b { font-weight: 700; }
+@media (max-width: 560px) { .timeline li { grid-template-columns: 52px minmax(0, 1fr); } .timeline .tag { grid-column: 2; } .timeline .who { grid-column: 1 / -1; } }
+.chars { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: 10px; }
+.char { border: 1px solid var(--rule-2); background: var(--sheet); border-radius: 10px; padding: 10px 12px; text-align: left; cursor: pointer; display: grid; gap: 4px; align-content: start; min-height: 108px; }
+.char .cn2 { font-family: var(--f-display); font-size: 1.2rem; line-height: 1.1; }
+.char .cd2 { font-size: 13px; color: var(--ink-2); line-height: 1.35; }
+.char .ct { font-family: var(--f-mono); font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-top: auto; }
+.char.key { border-color: var(--accent); }
+.char .badge { font-size: 11px; color: var(--accent); font-weight: 700; }
+.char[aria-pressed="true"] { background: var(--accent-soft); box-shadow: 0 0 0 2px var(--accent); }
+.char.dim { opacity: .35; }
+.chardetail { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+@media (max-width: 680px) { .chardetail { grid-template-columns: 1fr; } }
+.chardetail h4 { margin: 0 0 3px; font-family: var(--f-mono); font-weight: 500; font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.chardetail p { font-size: 15px; }
+table.cmp { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 720px; }
+table.cmp th, table.cmp td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+table.cmp thead th { font-size: 12.5px; color: var(--ink-2); border-bottom: 1.5px solid var(--rule-2); }
+table.cmp tbody th { font-weight: 700; font-size: 13px; color: var(--ink-2); width: 15%; }
+table.cmp .me { background: var(--accent-soft); }
+table.cmp thead th.me { color: var(--ink); }
+.contrib { list-style: none; margin: 0; padding: 0; counter-reset: c; display: grid; gap: 14px; max-width: 74ch; }
+.contrib li { counter-increment: c; display: grid; grid-template-columns: 34px 1fr; gap: 12px; }
+.contrib li::before { content: counter(c); font-family: var(--f-display); font-size: 1.6rem; line-height: 1; color: var(--accent); }
+.contrib b { display: block; font-size: 1.04rem; margin-bottom: 2px; }
+.users { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.users .panel { display: grid; gap: 6px; align-content: start; }
+.users .panel p { font-size: 14.5px; color: var(--ink-2); }
+ol.refs { margin: 0; padding-left: 0; list-style: none; display: grid; gap: 6px; font-size: 13.5px; color: var(--ink-2); max-width: 96ch; }
+ol.refs li { padding-left: 22px; text-indent: -22px; }
+
+#tip { position: fixed; z-index: 50; pointer-events: none; background: var(--tip-bg); color: var(--tip-fg); border-radius: 8px; padding: 8px 10px; font-size: 13px; line-height: 1.35; max-width: 270px; box-shadow: 0 4px 18px rgba(0,0,0,.18); }
+#tip .tt { font-weight: 700; }
+#tip .tr { display: flex; align-items: center; gap: 7px; font-size: 12.5px; }
+#tip .tr i { width: 12px; height: 3px; border-radius: 2px; background: var(--c); display: inline-block; }
+#tip .tr b { font-family: var(--f-mono); font-weight: 500; }
+#tip .tm { opacity: .75; font-size: 12px; }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .map { top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--paper); padding: 8px 0 6px; margin-inline: calc(-1 * clamp(16px, 4vw, 44px)); padding-inline: clamp(16px, 4vw, 44px); border-bottom: 1px solid var(--rule); }
+  .map ol { display: flex; overflow-x: auto; gap: 4px; scrollbar-width: none; }
+  .map ol::-webkit-scrollbar { display: none; }
+  .map a { white-space: nowrap; grid-template-columns: auto auto; padding: 5px 9px; font-size: 13px; }
+  .map .eyebrow { display: none; }
+  main { gap: 70px; }
+  .module { scroll-margin-top: 70px; }
+}
+@media (max-width: 520px) { body { font-size: 16px; } .cl-row { height: 48px; gap: 4px; } .cl-sec { gap: 1px; } .cl-labels { gap: 4px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="cover">
+    <div class="eyebrow">A short course in ten modules</div>
+    <h1>An Education of the Soul</h1>
+    <p class="sub">How the playlist <span class="t">I win</span> teaches, one song at a time, and why its order matters.</p>
+    <div class="meta"><span><b>39</b> songs</span><span><b>8</b> lessons</span><span><b>2</b> terms</span><span><b>1</b> shuffle lab</span><span>about <b>35</b> minutes</span></div>
+    <p class="thesis"><span class="t">I win</span> is a playlist of 39 songs in eight sections. Read in order, it works like a course. It begins at war with “them” and ends speaking to “you”. Along the way it traces the path Carl Jung described for the soul: the mask, the shadow, the soul-guide and the Self. This course shows that path in the data, places it in the research on playlists and in Spotify’s own profiles of listeners, and lets you test whether a machine could have drawn it.</p>
+    <div class="courseline" aria-label="The whole course in one line">
+      <div class="cl-row" id="clRow"></div>
+      <div class="cl-labels" id="clLabels"></div>
+      <div class="legend" id="addrLegend1"></div>
+    </div>
+    <p class="cap" style="font-size:13.5px;color:var(--muted)">The whole course in one line. Each bar is a song, coloured by whom it speaks to; hatched bars are tracks with too few words to score. Select a bar to open the song in Module 3.</p>
+    <a class="cta" href="#m1">Start with Module 1 <span aria-hidden="true">↓</span></a>
+  </header>
+
+  <div class="layout">
+    <nav class="map" aria-label="Course map">
+      <div class="eyebrow">Course map</div>
+      <div class="progress" aria-hidden="true"><div id="prog"></div></div>
+      <ol id="mapList">
+        <li><a href="#m1"><span class="n">1</span><span>The idea</span></a></li>
+        <li><a href="#m2"><span class="n">2</span><span>The research</span></a></li>
+        <li><a href="#m3"><span class="n">3</span><span>The order</span></a></li>
+        <li><a href="#m4"><span class="n">4</span><span>The curriculum</span></a></li>
+        <li><a href="#m5"><span class="n">5</span><span>The subjects</span></a></li>
+        <li><a href="#m6"><span class="n">6</span><span>Jung’s line</span></a></li>
+        <li><a href="#m7"><span class="n">7</span><span>The wordless middle</span></a></li>
+        <li><a href="#m8"><span class="n">8</span><span>The shuffle lab</span></a></li>
+        <li><a href="#m9"><span class="n">9</span><span>What this adds</span></a></li>
+        <li><a href="#m10"><span class="n">10</span><span>Your turn</span></a></li>
+      </ol>
+    </nav>
+
+    <main>
+      <!-- ============================== MODULE 1 -->
+      <section class="module" id="m1">
+        <div class="mod-head">
+          <div class="eyebrow"><b>Module 1</b> · The idea</div>
+          <h2>What does it mean to read a playlist as a course?</h2>
+          <div class="short"><span class="eyebrow">Short answer</span><p>A playlist puts songs in an order. When the order is chosen with care, each song becomes a lesson and the whole playlist becomes a course.</p></div>
+        </div>
+        <figure class="hornbook" style="margin:0">
+          <div class="board">
+            <p>“I will call the world a School instituted for the purpose of teaching little children to read. I will call the human heart the horn Book used in that School. And I will call the Child able to read, the Soul made from that school and its hornbook.”</p>
+            <small>John Keats, letter to George and Georgiana Keats, April 1819. A hornbook was a child’s first reading board: a printed lesson on a wooden paddle, covered with a thin sheet of horn.</small>
+          </div>
+          <div class="handle" aria-hidden="true"></div>
+        </figure>
+        <div class="prose analysis"><span class="eyebrow">Analysis</span><p>Music was the soul’s first teacher long before it was a stream. In Plato’s <span class="t">Republic</span> the education of the young begins with music, because “rhythm and harmony find their way into the inward places of the soul, on which they mightily fasten”. Keats, in the letter above, turned the whole world into a school: the heart is the book the soul learns to read from, and the soul is what the reading makes. <span class="t">I win</span> can be read in the same spirit. Its thirty-nine songs are the lessons, their order is the curriculum, and the curator is the teacher who decides what comes next, when to raise the voice, when to fall silent and when to come back to a lesson not yet learned.</p><p>The sociologist Tia DeNora, listening to people listening, found them working “like disc jockeys to themselves”: they used music to move from one state to another and to tell themselves who they are. Curation takes that one step further. A song alone is a feeling. A song placed after another becomes a sentence. Thirty-nine songs in a chosen order become an education, a word often traced to the Latin for leading out.</p></div>
+        <div class="prose">
+          <p><span class="t">I win</span> has 39 songs. Its curator divided them into eight sections and named each one. This course treats each section as a lesson and asks what it teaches.</p>
+        </div>
+        <div class="figure">
+          <h3>Three ways to read each song, and one test</h3>
+          <div class="cols">
+            <div class="panel lens"><span class="k">Reading 1 · address</span><h3>Whom it speaks to</h3><p>A close reading gives each song an addressee: “them” (rivals, enemies), “you” (someone close), “us”, or the self. Four tracks have no words to address anyone.</p></div>
+            <div class="panel lens"><span class="k">Reading 2 · themes</span><h3>What its words talk about</h3><p>A lexicon of 617 weighted words sorts the lyrics into 14 themes, such as loyalty, shelter, or water and night. The 32 songs with at least 20 words are scored.</p></div>
+            <div class="panel lens"><span class="k">Reading 3 · figures</span><h3>Which of Jung’s figures leads</h3><p>The themes are grouped into the four figures Jung placed on the soul’s path. A level of 1 is the playlist’s average; 2 is twice the average.</p></div>
+            <div class="panel lens"><span class="k">The test · shuffle</span><h3>What the order adds</h3><p>The same songs are dealt into random orders thousands of times. A pattern that appears in the real order and rarely in random ones was made by the curator.</p></div>
+          </div>
+        </div>
+        <div class="figure">
+          <h3>Jung’s four figures, in plain words</h3>
+          <div class="fig4" id="fig4"></div>
+          <p class="cap">The themes listed under each figure follow Jung’s descriptions. Module 5 shows that the data group a few themes differently.</p>
+        </div>
+        <aside class="remember"><span class="eyebrow">What to remember</span>
+          <ul><li>The songs are the lessons, the order is the curriculum, and the curator is the teacher.</li>
+            <li>Each song is read three ways: whom it speaks to, what it talks about, and which figure leads.</li>
+            <li>The shuffle test separates what the songs bring from what the order adds.</li></ul></aside>
+      </section>
+
+      <!-- ============================== MODULE 2 -->
+      <section class="module" id="m2">
+        <div class="mod-head">
+          <div class="eyebrow"><b>Module 2</b> · The research</div>
+          <h2>What do we already know about playlists?</h2>
+          <div class="short"><span class="eyebrow">Short answer</span><p>Researchers have studied why people make playlists, how they order them, how machines order them, and how platforms label listeners. Few have read the order of one personal playlist as a story of the self and tested that reading against chance.</p></div>
+        </div>
+
+        <div class="subhead"><span class="eyebrow">2.1 · Meaning</span><h3>Music as a technology of the self</h3></div>
+        <div class="prose">
+          <p>The sociologist Tia DeNora interviewed fifty-two women in Britain and the United States about music in their daily lives (<em>Music in Everyday Life</em>, 2000). She found them working “like disc jockeys to themselves”. They chose music to calm down, to focus, to get ready for an evening, or to remember someone. In her words, music became “a technology for spinning the apparently continuous tale of who one is”.</p>
+          <p>DeNora adds a precise idea. Much of our identity work is done for others: we present ourselves to colleagues, friends and family. Listening alone is identity work done for oneself, a form of <b>introjection</b>, “a presentation of self to self”. A private playlist is a clear case of it. Her book also recalls Aristotle’s view that music has “the power of producing an effect on the character of the soul”. That is the starting point of this course.</p>
+        </div>
+
+        <div class="subhead"><span class="eyebrow">2.2 · Craft</span><h3>The mix as an art</h3></div>
+        <div class="prose">
+          <p>In 2006, Sally Jo Cunningham, David Bainbridge and Annette Falconer studied how people build playlists. They combined interviews with 115 requests for help posted on the Art of the Mix forum. They found two kinds of lists. <b>Personal-use playlists</b> are loose collections for a mood or an activity. <b>Formal mixes</b> have an organising principle and a deliberate order. About a quarter of the mixes centred on an artist or a genre, a quarter on an event, a fifth on romance, and about one in six set out to tell a message or a story.</p>
+          <p>Mix makers share loose rules. Open with a good song, but not the best one. Choose the last song with care, because it is the one people remember. Avoid more than two songs in a row by the same artist. Then they break the rules on purpose: “sometimes an abrupt change-up can be like an alarm clock going off in a mix”. One interviewee put it simply: making a playlist is “more of an art than a science”.</p>
+          <p>The critic Rob Sheffield, in <em>Love Is a Mix Tape</em> (2007), adds that a mix changes the songs themselves. He would rather hear a Frank Sinatra song between Run-DMC and Bananarama than between two other Sinatra songs. A song takes a new meaning from its neighbours. <span class="t">I win</span> is a formal mix in this sense: it has an organising principle, a chosen order, and turns placed on purpose.</p>
+        </div>
+
+        <div class="subhead"><span class="eyebrow">2.3 · Meaning</span><h3>Curation as context creation</h3></div>
+        <div class="prose">
+          <p>In his doctoral thesis on personal streaming playlists (2019), Onur Sesigür interviewed curators and music-industry professionals in Turkey. He defines playlist curation as <b>context creation</b>: a song placed in a playlist carries the context of the person who placed it there. His participants describe their playlists as diaries, indexes and even a museum of their own lives. One calls them “islands”: in a cloud where nothing truly belongs to you, the playlist is a space that does. Another keeps “cornerstone” playlists to “return to [his] original self”.</p>
+          <p>Sesigür concludes that the link between identity and music “cannot be deduced to a mere algorithm of preferences”, and that curation “has the potential to create non-dominant discourse”. These are the two claims this course puts to the test with numbers.</p>
+        </div>
+        <p class="pull">One of Sesigür’s participants, a DJ, spent months “educating” Spotify’s algorithm. He avoided making new playlists so as not to “alter the character Spotify knows me as”.<small>In that story, the listener educates the machine. In <span class="t">I win</span>, the playlist educates the listener.</small></p>
+
+        <div class="subhead"><span class="eyebrow">2.4 · Machines</span><h3>How machines order songs</h3></div>
+        <div class="prose">
+          <p>Automatic playlist generation, surveyed by Geoffray Bonnin and Dietmar Jannach (2014), mostly picks each next song for its similarity to the previous one or to a seed song. Smooth transitions count as a mark of quality. Harald Schweiger, Emilia Parada-Cabaleiro and Markus Schedl (2025) gave that smoothness a formal measure, <b>coherence</b>, and applied it to more than 650,000 user playlists. Longer playlists turned out more coherent. Playlists full of popular hits, and playlists edited many times, were less so. The authors propose an algorithm that reorders a playlist toward typical coherence, and they call for future work on curators’ personality and listening context.</p>
+          <p>Media scholars read the same machines critically. Robert Prey (2018) calls their output <b>algorithmic individuation</b>: the platform assembles a statistical individual from what you played, and then addresses you as that individual. Nick Seaver (2019) shows that recommender designers often think of their systems as <b>traps</b>, built to capture attention and keep it. Working with Spotify’s own data, Ashton Anderson and colleagues (2020) found that listening driven by recommendations is less varied than listening people organise themselves, and that users who become more varied over time rely less on the algorithm.</p>
+        </div>
+
+        <div class="subhead" id="spotify"><span class="eyebrow">2.5 · Profiles</span><h3>How Spotify describes its listeners</h3></div>
+        <div class="prose">
+          <p>Spotify itself describes listeners as characters. In its 2023 year-end recap, “Me in 2023”, each user received one of twelve listening characters. In September 2023 it launched <b>daylist</b>, a playlist that renames itself several times a day with a mood, a micro-genre and a time of day. Wrapped 2025 added a <b>Listening Age</b>, based on the release years of the songs you play most, and <b>Clubs</b> such as Club Serotonin or Soft Hearts Club, with roles like Curator, Archivist or Scout.</p>
+        </div>
+        <div class="figure">
+          <div class="controls">
+            <span style="font-size:14px;color:var(--ink-2)">Show characters that read</span>
+            <div class="chips" id="charFilter" role="group" aria-label="Filter characters"></div>
+          </div>
+          <div class="chars" id="chars"></div>
+          <div class="panel chardetail" id="charDetail" aria-live="polite"></div>
+          <p class="cap">The twelve “Me in 2023” listening characters, paraphrased from Spotify’s descriptions. Select one to compare what it reads with what it would miss in <span class="t">I win</span>.</p>
+        </div>
+        <div class="prose">
+          <p><b>What the profiles read, and what they miss.</b> All twelve characters read habits: how often you replay, skip, explore, finish albums or make playlists. None reads what the songs say, in which order they come, or to whom they speak. The Time Traveller shows the gap well. Return and repetition is the largest theme in the lyrics of <span class="t">I win</span>, yet Spotify would only see whether you replay a song. It would never see songs about coming back.</p>
+          <p><b>Psychology reads taste more carefully, but still taste.</b> Peter Rentfrow and Samuel Gosling (2003) found four broad dimensions of musical preference: reflective and complex, intense and rebellious, upbeat and conventional, and energetic and rhythmic. Each relates to personality traits; for example, a liking for reflective and complex music goes with openness to experience. These studies describe what people like, not how they arrange it.</p>
+          <p><b>Labels flatter.</b> In 1949 the psychologist Bertram Forer gave his students one vague personality sketch, copied for everyone. They rated it as a very accurate description of themselves. Pop-psychology labels, from horoscopes to brand archetypes (Mark and Pearson, 2001) and “shadow work” journals, work in the same way. A label that cannot fail teaches little. That is why every label in this course comes with a count that can be checked and a shuffle that can fail.</p>
+        </div>
+
+        <div class="subhead"><span class="eyebrow">2.6 · Therapy</span><h3>Sequenced listening as an inner journey</h3></div>
+        <div class="prose">
+          <p>Music therapy has used deliberately ordered listening for decades. In the <b>Bonny Method of Guided Imagery and Music</b>, developed by Helen Bonny in the 1970s, a therapist plays a programme of classical pieces, sequenced in advance, while the client describes the images that arise. The programme has a shape: it opens, builds, peaks and returns. The Jungian music therapist Margareta Wärja (1994) described this kind of work as a <b>spiralling path of individuation</b>.</p>
+          <p><span class="t">I win</span> can be read as a programme of this kind, written by the listener herself with songs from a streaming catalogue. The course reads it with the tools listed below. Each one is explained at the point where it is used.</p>
+        </div>
+        <div class="figure">
+          <h3>Concepts used in this course</h3>
+          <div class="chips">
+            <a href="#c-projection">Projection · Jung</a><a href="#c-threshold">Rites of passage · Van Gennep</a><a href="#c-labelling">Affect labelling · Lieberman</a><a href="#c-wecode">The we-code · Gumperz</a>
+            <a href="#c-spiral">Spiral curriculum · Bruner</a><a href="#c-circum">Circling the Self · Jung, Wärja</a><a href="#c-accom">Accommodation · Giles</a><a href="#c-chair">Two-chair dialogue · Greenberg</a>
+            <a href="#c-const">Constellations · this course</a><a href="#c-mirror">The mirror · Winnicott</a><a href="#c-drug">Love as a drug · Fisher</a><a href="#c-holy">The holy · Otto</a>
+            <a href="#c-indiv">Individuation · Jung</a><a href="#c-level">Reading a level</a><a href="#c-trance">Trance and possession · Rouget</a>
+            <a href="#c-perm">The shuffle test</a><a href="#c-sim">Similarity-based playlists · Bonnin and Jannach</a><a href="#c-coh">Coherence · Schweiger</a>
+          </div>
+        </div>
+
+        <div class="subhead"><span class="eyebrow">2.7 · Overview</span><h3>Who has looked at playlists, and what they looked at</h3></div>
+        <div class="figure">
+          <div class="chips" id="tlFilter" role="group" aria-label="Filter the timeline"></div>
+          <div class="panel"><ol class="timeline" id="timeline"></ol></div>
+        </div>
+        <div class="prose">
+          <p><b>The gap.</b> Put together, these studies explain why people make playlists, how they order them, how machines order them, and how platforms label listeners. What is missing is a reading of the order of one personal playlist as a psychological story, with a test of that reading against chance and against machines. This course tries to fill that gap. Module 9 lists what it adds.</p>
+        </div>
+        <aside class="remember"><span class="eyebrow">What to remember</span>
+          <ul><li>Listeners use music as a technology of the self (DeNora); mix makers treat order as an art (Cunningham et al.).</li>
+            <li>Curation creates context, and identity cannot be reduced to an algorithm of preferences (Sesigür).</li>
+            <li>Machines favour smooth, similar sequences (Bonnin and Jannach; Schweiger et al.), and platforms describe listeners by their habits (Spotify’s characters).</li>
+            <li>No profile reads the order of a playlist as a story. That is what this course does.</li></ul></aside>
+      </section>
+
+      <!-- ============================== MODULE 3 -->
+      <section class="module" id="m3">
+        <div class="mod-head">
+          <div class="eyebrow"><b>Module 3</b> · The order</div>
+          <h2>Whom does each song speak to?</h2>
+          <div class="short"><span class="eyebrow">Short answer</span><p>At the start, almost every song speaks to enemies. By the end, every song speaks to someone close.</p></div>
+        </div>
+        <div class="figure">
+          <div class="controls">
+            <div class="legend" id="addrLegend2"></div>
+            <label class="toggle" for="voiceToggle"><input type="checkbox" id="voiceToggle"> Show the two voices</label>
+          </div>
+          <div class="panel scroll-x"><div class="strip" id="strip"></div></div>
+          <div class="panel" id="songCard" aria-live="polite"></div>
+          <p class="cap">Select any song to read its card. Address comes from a close reading of the lyrics; hatched tiles are acts read from their title and sound.</p>
+        </div>
+        <div class="prose analysis"><span class="eyebrow">Analysis</span><p>The sequence above follows whom each song addresses, and it shows the main thing this school teaches: not a new vocabulary but a new addressee. The first term is spoken to enemies. All of the opening nine songs, and eleven of the first seventeen, speak to “them”. The two signals stand like the doors of the course, a devilish sign inside the war cry (6) and the spoken warning that closes the pact (12). After the warning the colour of the sequence changes, and songs to “you” and “us” take over. Only two of the last twenty-two songs still speak to “them”: the charm of <span class="t">Lemon</span> (23) and the last projection of <span class="t">Not Like Us</span> (27). The songs that speak to the self sit at the hinges, in the pact, in the counter-magic and once in the return to dialogue, where the soul turns back on itself before speaking outward again. The sanctuary is the only section with neither an enemy nor a silence: every song speaks to someone close.</p></div>
+        <div class="concepts"><aside class="concept" id="c-projection">
+            <div class="c-head"><span class="eyebrow">Concept</span><div class="c-term">Projection</div><span class="c-src">C. G. Jung, <em>Aion</em> (1951)</span></div>
+            <div><h4>What it says</h4><p>Projection is the habit of seeing in other people what we cannot accept in ourselves. Jung saw it as the usual way the shadow first appears: as an enemy who seems to carry all the darkness, while we keep the light. Projections fade only when they are recognised and taken back.</p></div>
+            <div class="c-in"><h4>Where it shows in <span class="t">I win</span></h4><p>The first lesson speaks only to “them”: rivals, haters, the devil. Eleven of the first 17 songs do so, against two of the last 22. The course reads as a slow withdrawal of projection. The enemy outside becomes a “you” to speak to, and in the second term the spell is found inside.</p></div>
+          </aside><aside class="concept" id="c-threshold">
+            <div class="c-head"><span class="eyebrow">Concept</span><div class="c-term">Rites of passage</div><span class="c-src">A. van Gennep, <em>The Rites of Passage</em> (1909)</span></div>
+            <div><h4>What it says</h4><p>Arnold van Gennep showed that rites of passage follow three steps: separation from the old state, a threshold (the liminal phase), and incorporation into the new state. The threshold is often marked by a sign, a word or a ban.</p></div>
+            <div class="c-in"><h4>Where it shows in <span class="t">I win</span></h4><p>The spoken warning at song 12 works as that sign: what follows is not for children. Across it, the vocabulary changes more than anywhere else in the playlist (a similarity of 0.04 between neighbours, the lowest of all). Before it come words of highs and substances. After it they vanish, and “you” rises from 7% to 56% of the pronouns in three songs.</p></div>
+          </aside></div>
+        <div class="figure">
+          <h3>Whom each lesson speaks to</h3>
+          <div class="panel"><div class="abl" id="abl"></div></div>
+          <p class="cap">Number of songs in each lesson by addressee. The last lesson is the only one with neither an enemy nor a silence.</p>
+        </div>
+        <div class="prose">
+          <p><b>The words agree with the reading.</b> “You” grows from 18% of the pronouns in the first eight songs with words to 35% in the last eight. A rise this steady appears in only about 2 random orders out of 100.</p>
+        </div>
+        <div class="concepts"><aside class="concept" id="c-labelling">
+            <div class="c-head"><span class="eyebrow">Concept</span><div class="c-term">Affect labelling</div><span class="c-src">M. Lieberman et al., <em>Psychological Science</em> (2007)</span></div>
+            <div><h4>What it says</h4><p>In brain-imaging studies, putting a feeling into words reduced activity in the amygdala, the brain’s alarm system. Naming a feeling is already a way of regulating it, which is also what DeNora’s listeners do with music.</p></div>
+            <div class="c-in"><h4>Where it shows in <span class="t">I win</span></h4><p>While the soul is alone, the vocabulary of the playlist is thin: 13.7 theme words per 100 words. It more than doubles at the pact (31.8) and stays high through the integration (26.5). The course names more as soon as it starts to speak to someone.</p></div>
+          </aside><aside class="concept" id="c-wecode">
+            <div class="c-head"><span class="eyebrow">Concept</span><div class="c-term">The we-code</div><span class="c-src">J. Gumperz, <em>Discourse Strategies</em> (1982)</span></div>
+            <div><h4>What it says</h4><p>Bilingual speakers often switch to their closer, more intimate language, the “we-code”, to say what matters most. The more distant “they-code” is kept for formality.</p></div>
+            <div class="c-in"><h4>Where it shows in <span class="t">I win</span></h4><p>The threshold is spoken in Arabic, the curator’s closer code. The second term also changes language at its turning points: a confession in Italian, a possession in French. Each switch marks a moment of truth rather than a change of style.</p></div>
+          </aside></div>
+        <aside class="remember"><span class="eyebrow">What to remember</span>
+          <ul><li>The main thing this course teaches is a new addressee: from “them” to “you”.</li>
+            <li>Two signals mark the doors of the course, at songs 6 and 12.</li>
+            <li>The turn shows in the close reading and in the pronoun counts.</li></ul></aside>
+        <div class="quiz" data-q="2"></div>
+      </section>
+
+      <!-- ============================== MODULE 4 -->
+      <section class="module" id="m4">
+        <div class="mod-head">
+          <div class="eyebrow"><b>Module 4</b> · The curriculum</div>
+          <h2>What does each lesson teach?</h2>
+          <div class="short"><span class="eyebrow">Short answer</span><p>The eight sections form two terms. The first term moves from war to a first glimpse of wholeness. The second term covers the same ground again, one level deeper.</p></div>
+        </div>
+        <div class="figure">
+          <div class="tabs" role="tablist" id="lessonTabs" aria-label="Lessons"></div>
+          <div class="panel" id="lessonPanel" role="tabpanel"></div>
+        </div>
+        <div class="prose analysis"><span class="eyebrow">Analysis</span><p>The curator divided the playlist into eight sections of her own. Read as a school, they form two terms, and each section teaches one lesson (the lesson viewer above).</p><p><b>The first term</b> (songs 1–17) opens alone and at war. For nine songs everything is aimed at “them”: rivals, haters, the devil. This is the soul at its first lesson, behind its mask, seeing its own darkness outside in an enemy; Jung called these the persona and the projected shadow and placed them at the start of the road. The second lesson is a pact. A promise of loyalty is made and answered not in the language of loyalty but in the language of night and intoxication, as if the soul had to learn that a bond is rarely returned in its own words. Then comes the threshold: a spoken warning, in Arabic, that works like the label on a product, saying that what follows is not for children. After it the words of excess fall away and the songs begin to say “you”. In the third lesson, integration, care given to another comes back as care for oneself, and the playlist glimpses what Jung called the Self, the soul whole for a moment.</p><p><b>The second term</b> (songs 18–39) begins by taking the words away. Over hard techno, three titles cast spells, and at the exact centre of the playlist stands a title about smelling fear. A confession in Italian and a stretch of silence undo them. The counter-magic follows: a charm is refused, and then the spell is found where it really lives, inside, as a possession, a diagnosis of the ego and its power and, finally, an alter ego that answers without words. Only then does the dialogue return, and with it the enemy, one last time, before tenderness takes over. The sanctuary closes the course. Every song now speaks to “you” or “us”, the sacred words are angels rather than devils, and the last song follows the rivers into the water, which Jung called the commonest image of the unconscious and the place where the soul-guide leads.</p></div>
+        <div class="prose">
+          <h3>Why two terms?</h3>
+          <p>A real education does not run in a straight line. The psychologist Jerome Bruner called this the spiral curriculum: the same few ideas are met again and again, each time at a deeper level. Jung said the same of the soul when he wrote that there is no linear evolution, only a circling around the Self. <span class="t">I win</span> draws that spiral. Wholeness is glimpsed early, in the first term, and then circled rather than conquered: the mask returns as magic and ego, the shadow returns as a double and as an enemy, and only after this second pass does the soul-guide lead into the sanctuary. Even the ending stays open, with a song about the stage beside the sanctuary, as if the course could begin again.</p>
+        </div>
+        <div class="concepts"><aside class="concept" id="c-spiral">
+            <div class="c-head"><span class="eyebrow">Concept</span><div class="c-term">The spiral curriculum</div><span class="c-src">J. Bruner, <em>The Process of Education</em> (1960)</span></div>
+            <div><h4>What it says</h4><p>Jerome Bruner argued that a subject is best taught by coming back to it. The same basic ideas return again and again, each time in a richer form, until the learner grasps them fully.</p></div>
+            <div class="c-in"><h4>Where it shows in <span class="t">I win</span></h4><p>The course teaches its lessons twice. The first term (1–17) runs from war to the Self. The second (18–39) returns to the mask as magic and ego, to the shadow as a double and an enemy, and to the soul-guide, before ending in the sanctuary. The second pass is deeper: the spell is now found inside instead of outside.</p></div>
+          </aside><aside class="concept" id="c-circum">
+            <div class="c-head"><span class="eyebrow">Concept</span><div class="c-term">Circling the Self</div><span class="c-src">C. G. Jung, <em>Memories, Dreams, Reflections</em> (1963); M. Wärja (1994)</span></div>
+            <div><h4>What it says</h4><p>Late in life Jung wrote that there is no linear evolution, only a circling around the Self. Individuation is not a ladder with a top step; it is a path that comes back to the same centre from new angles. The music therapist Margareta Wärja called it the spiralling path of individuation.</p></div>
+            <div class="c-in"><h4>Where it shows in <span class="t">I win</span></h4><p>The Self leads early, in Lesson 3, at 2.3 times its average, and never leads a lesson again. The figures that follow circle around it: the mask, the shadow and the soul-guide each come back once more.</p></div>
+          </aside><aside class="concept" id="c-accom">
+            <div class="c-head"><span class="eyebrow">Concept</span><div class="c-term">Accommodation and divergence</div><span class="c-src">H. Giles, N. Coupland and J. Coupland (1991)</span></div>
+            <div><h4>What it says</h4><p>Communication accommodation theory shows that speakers who want closeness converge toward each other’s words and style. Speakers who keep their distance diverge, even while they keep talking.</p></div>
+            <div class="c-in"><h4>Where it shows in <span class="t">I win</span></h4><p>In the pact, a promise of loyalty is answered in another vocabulary: night and intoxication. The two songs share little vocabulary (a similarity of 0.13, against 0.34 for a typical answer in this playlist). The bond is met, but not in its own terms.</p></div>
+          </aside><aside class="concept" id="c-chair">
+            <div class="c-head"><span class="eyebrow">Concept</span><div class="c-term">Two-chair dialogue</div><span class="c-src">L. Greenberg (1979); H. Hermans (1992)</span></div>
+            <div><h4>What it says</h4><p>In emotion-focused therapy, a client speaks in turn from two chairs, for example the critic and the criticised. The inner split resolves when the critical voice softens and the other side is heard. Hubert Hermans’ dialogical self describes the person in the same way, as several inner voices that speak to each other.</p></div>
+            <div class="c-in"><h4>Where it shows in <span class="t">I win</span></h4><p>In the integration, <span class="t">Butterfly’s Repose</span> is the first song where “you” outnumbers “I” (56% against 39%), and its main theme is shelter. The next song, <span class="t">i</span>, peaks on the self and its doubles. These two songs are the closest pair of answers in the playlist (similarity 0.74). Care offered to someone else comes back as care for oneself.</p></div>
+          </aside></div>
+        <aside class="remember"><span class="eyebrow">What to remember</span>
+          <ul><li>First term (songs 1–17): from war, through a pact, to a first glimpse of wholeness.</li>
+            <li>Second term (songs 18–39): magic, a double, the enemy once more, then the sanctuary.</li>
+            <li>The course is a spiral. The Self is reached early and then circled.</li></ul></aside>
+      </section>
+
+      <!-- ============================== MODULE 5 -->
+      <section class="module" id="m5">
+        <div class="mod-head">
+          <div class="eyebrow"><b>Module 5</b> · The subjects</div>
+          <h2>What do the songs talk about?</h2>
+          <div class="short"><span class="eyebrow">Short answer</span><p>Fourteen families of words. They fall into three groups that take turns: the stage, the pact, and the mirror and refuge.</p></div>
+        </div>
+        <div class="prose">
+          <p>Each song’s lyrics were scored with a lexicon of 617 weighted words and word stems, sorted into 14 themes. A theme score counts theme words per 100 words of lyrics, weighted from 1 (a loose link) to 3 (a core word). The 32 songs with at least 20 words in English, French or Italian are scored. The other seven tracks are acts.</p>
+        </div>
+        <div class="figure">
+          <div class="controls">
+            <span style="font-size:14px;color:var(--ink-2)">Group the themes by</span>
+            <div class="seg" role="group" aria-label="Grouping"><button type="button" id="grpData" aria-pressed="true">The data (3 groups)</button><button type="button" id="grpTheory" aria-pressed="false">Jung’s theory (4 figures)</button></div>
+          </div>
+          <div class="panel scroll-x"><div class="heat" id="heat"></div></div>
+          <div class="heatlegend" id="heatLegend"></div>
+          <div class="panel themecard" id="themeCard" aria-live="polite"></div>
+          <p class="cap">Darker cells hold more theme words. Select a theme name to read its card; hover a cell for its value.</p>
+        </div>
+        <div class="figure">
+          <h3>The three constellations and their peak songs</h3>
+          <div class="panel scroll-x"><table class="t2" id="consTable"></table></div>
+          <p class="cap">Songs with the theme: of the 32 scored songs, those scoring at least 1. Peak score: weighted theme words per 100 words in the peak song. Share: the peak song’s part of the theme’s total across the playlist.</p>
+        </div>
+        <div class="prose analysis"><span class="eyebrow">Analysis</span><p>The fourteen themes of the lyrics are the school’s subjects. Grouped by when they rise and fall together along the order, rather than by the songs that hold them, they form three constellations (table above): the persona, a subject of stage and voice; the shadow, the subject of the pact; and the Self, a subject of mirror and refuge. Two subjects are daily lessons: looking and talking appear in more than two-thirds of the songs with words. The others are taught in intensive sessions, where one song carries a large share of the theme. <span class="t">LOYALTY.</span> holds two-fifths of all loyalty words, <span class="t">i</span> two-fifths of the self and its doubles, and <span class="t">I Follow Rivers</span> more than a quarter of the water and the night. The peaks tell the story of the course: the theme of devils and the sacred peaks in a song called <span class="t">Sanctuary</span>, with angels rather than devils, and death peaks in a song about not being dead. In the data the pact’s loyalty travels with highs and death, so it falls in the shadow’s constellation; in Jung’s own terms loyalty and night belong to the soul-guide, which is why the lesson viewer in Module 4 names her there. Magic, the subject of the second term, almost never appears in the lyrics. It is taught in titles and in the order instead.</p></div>
+        <p class="caution">Use the toggle above the heat map to compare the data groups with Jung’s four figures.</p>
+        <div class="concepts"><aside class="concept" id="c-const">
+            <div class="c-head"><span class="eyebrow">Concept</span><div class="c-term">How a constellation is found</div><span class="c-src">this course</span></div>
+            <div><h4>What it says</h4><p>Each theme gets a rolling curve: its average score over an eight-song window, moved one song at a time. Two themes belong together when their curves rise and fall at the same places. Grouping the 13 themes by their curves (a method called average-linkage clustering) and keeping three groups gives the constellations. They stay the same with windows of 8 or 10 songs.</p></div>
+            <div class="c-in"><h4>Where it shows in <span class="t">I win</span></h4><p>The groups describe when themes are taught together, not which songs contain them. Because they were found on this very order, they are partly circular. Module 8 therefore also tests Jung’s own grouping, which was fixed from theory before looking at the order.</p></div>
+          </aside><aside class="concept" id="c-mirror">
+            <div class="c-head"><span class="eyebrow">Concept</span><div class="c-term">The mirror</div><span class="c-src">D. W. Winnicott, <em>Playing and Reality</em> (1971)</span></div>
+            <div><h4>What it says</h4><p>The paediatrician Donald Winnicott wrote that a baby first finds itself in its mother’s face: being seen comes before seeing oneself. Popular psychology calls it “feeling seen”.</p></div>
+            <div class="c-in"><h4>Where it shows in <span class="t">I win</span></h4><p>Sight and shelter are the only pair of themes written into the same songs clearly more often than chance (a correlation of 0.45 across the 32 songs). In <span class="t">I win</span>, looking and being held go together.</p></div>
+          </aside><aside class="concept" id="c-drug">
+            <div class="c-head"><span class="eyebrow">Concept</span><div class="c-term">Love as a drug</div><span class="c-src">H. Fisher et al., <em>Journal of Neurophysiology</em> (2010)</span></div>
+            <div><h4>What it says</h4><p>Brain scans of people recently rejected in love showed activity in reward and craving systems that are also involved in addiction. The slogan “love is a drug” has a laboratory finding behind it.</p></div>
+            <div class="c-in"><h4>Where it shows in <span class="t">I win</span></h4><p>Along the order, loyalty and highs rise and fall together (a correlation of 0.76), although they share only two songs. They meet in the pact and again near the end. The playlist places the vow beside the high.</p></div>
+          </aside><aside class="concept" id="c-holy">
+            <div class="c-head"><span class="eyebrow">Concept</span><div class="c-term">The holy beyond words</div><span class="c-src">R. Otto, <em>The Idea of the Holy</em> (1923)</span></div>
+            <div><h4>What it says</h4><p>Rudolf Otto described the holy as numinous: an experience of awe, fascination and dread that words cannot capture.</p></div>
+            <div class="c-in"><h4>Where it shows in <span class="t">I win</span></h4><p>The order keeps speech away from the sacred (a correlation of −0.69 along the order). The talkiest stretch, songs 21 to 25, holds almost no sacred words, and the most sacred song, <span class="t">Sanctuary</span>, sits in a quiet close.</p></div>
+          </aside></div>
+        <p class="caution"><b>Read the pairs as leads.</b> Tested one by one, 8 of 156 pair tests pass the usual threshold, about what chance alone would produce. The pairs matter for the picture they draw together, not one by one.</p>
+        <div class="quiz" data-q="4"></div>
+      </section>
+
+      <!-- ============================== MODULE 6 -->
+      <section class="module" id="m6">
+        <div class="mod-head">
+          <div class="eyebrow"><b>Module 6</b> · Jung’s line</div>
+          <h2>Does the order draw Jung’s path of the soul?</h2>
+          <div class="short"><span class="eyebrow">Short answer</span><p>Yes, twice. The figures take turns in the order Jung described. Then the course circles back and draws the path again.</p></div>
+        </div>
+        <div class="prose">
+          <p>In <em>Aion</em> (1951), Jung presents the figures in the order a person tends to meet them: the persona, the shadow, the soul-guide (anima) and the Self. He also warned that the path is not straight. This module follows the four figures along the 32 songs with words.</p>
+        </div>
+        <div class="concepts"><aside class="concept" id="c-indiv">
+            <div class="c-head"><span class="eyebrow">Concept</span><div class="c-term">Individuation</div><span class="c-src">C. G. Jung, <em>Aion</em> (1951)</span></div>
+            <div><h4>What it says</h4><p>Individuation is Jung’s name for becoming a whole person. It works by integrating what was split off rather than by adding something new. In <em>Aion</em> the chapters meet the figures in turn: first the shadow, then the anima and animus, then the Self. This course calls that order Jung’s line.</p></div>
+            <div class="c-in"><h4>Where it shows in <span class="t">I win</span></h4><p>In the first term, the leading figure follows that order lesson by lesson: the mask and the shadow (Lesson 1), the soul-guide (Lesson 2), then the Self (Lesson 3). The second term draws it again.</p></div>
+          </aside><aside class="concept" id="c-level">
+            <div class="c-head"><span class="eyebrow">Concept</span><div class="c-term">Reading a level</div><span class="c-src">this course</span></div>
+            <div><h4>What it says</h4><p>A figure’s level is the average of its themes, each divided by its own average across the playlist. A level of 2 means the figure’s words are twice as frequent as usual; 0.5 means half as frequent. The curves average eight neighbouring songs so that the shape of the course shows, rather than the noise of single songs.</p></div>
+            <div class="c-in"><h4>Where it shows in <span class="t">I win</span></h4><p>The three data curves are weakly anti-correlated (from −0.07 to −0.34): when one rises, another tends to fall. The figures take turns in a relay instead of singing together.</p></div>
+          </aside></div>
+        <div class="figure">
+          <div class="controls">
+            <div class="seg" role="group" aria-label="Figures"><button type="button" id="lcData" aria-pressed="false">The data (3 groups)</button><button type="button" id="lcTheory" aria-pressed="true">Jung’s theory (4 figures)</button></div>
+            <div class="legend" id="lcLegend"></div>
+          </div>
+          <div class="panel lc" id="lineChart"></div>
+          <p class="cap">Each point averages the songs in an eight-song window around it. A level of 1 is the figure’s average across the playlist. Numbers along the top mark the lessons; Lesson 6 has no words and does not appear. Hover or tap to read the values.</p>
+        </div>
+        <div class="figure">
+          <h3>Which figure leads each lesson</h3>
+          <div class="panel scroll-x"><table class="t2" id="leadTable"></table></div>
+        </div>
+        <div class="prose">
+          <p><b>Lesson 1.</b> The mask and the shadow open together. The Self is almost absent.</p>
+          <p><b>Lesson 2.</b> The soul-guide surges to nearly five times its average, the strongest lead of the course.</p>
+          <p><b>Lesson 3.</b> The Self takes over, and the first turn ends with a glimpse of wholeness.</p>
+          <p><b>Lessons 4 and 5.</b> The mask comes back, as magic and as ego.</p>
+          <p><b>Lessons 7 and 8.</b> The soul-guide leads the return to dialogue and the way into the sanctuary. The shadow rises once more before the end.</p>
+        </div>
+        <aside class="remember"><span class="eyebrow">What to remember</span>
+          <ul><li>The figures form a relay: one rises as another falls.</li>
+            <li>The path is drawn twice, as a spiral.</li>
+            <li>The Self is reached in Lesson 3 and then circled, never held for long.</li></ul></aside>
+        <div class="quiz" data-q="5"></div>
+      </section>
+
+      <!-- ============================== MODULE 7 -->
+      <section class="module" id="m7">
+        <div class="mod-head">
+          <div class="eyebrow"><b>Module 7</b> · The wordless middle</div>
+          <h2>What happens when the words stop?</h2>
+          <div class="short"><span class="eyebrow">Short answer</span><p>The course turns to magic. Nine tracks move from casting spells to finding the spell inside.</p></div>
+        </div>
+        <div class="figure">
+          <div class="panel scroll-x"><div class="cm" id="cm"></div></div>
+          <div class="panel cm-detail" id="cmDetail" aria-live="polite"></div>
+          <p class="cap">Songs 18 to 26, grouped by what each track does. Select a track to read it.</p>
+        </div>
+        <div class="prose analysis"><span class="eyebrow">Analysis</span><p>The nine cards above open the second term’s hardest lesson. For anything that counts words, the nine songs between the integration and the return to dialogue are almost blind: three are titles over techno, two have no words at all, and the rest speak Italian, English and French. Their meaning lies in what each song does. Three titles cast a spell, a magic word, a command and the scent of prey, and the third, <span class="t">I SMELL FEAR</span>, stands at the exact centre of the playlist. A confession and a silence undo them. A charm is met with suspicion. Then the operation turns inward: a possession, a diagnosis of the ego’s power and a double without words. The lesson is that the spell was never only outside. Anthropologists describe the same cure in Mediterranean rites of possession, tarantism and the Gnawa <span class="t">lila</span>, where music gives the spirit a name and a place instead of driving it out. It is also the part of the course an algorithm reading lyrics would miss, because it is taught in titles, languages and silences.</p></div>
+        <aside class="concept" id="c-trance">
+            <div class="c-head"><span class="eyebrow">Concept</span><div class="c-term">Trance and possession</div><span class="c-src">G. Rouget (1980); E. de Martino (1961); D. Kapchan (2007)</span></div>
+            <div><h4>What it says</h4><p>The ethnomusicologist Gilbert Rouget showed that music does not cause trance by itself. It gives trance a form that a community recognises. In the tarantism of southern Italy, studied by Ernesto de Martino, people believed bitten by the tarantula were treated with days of music and dance until the crisis resolved. In the Gnawa <em>lila</em> of Morocco, studied by Deborah Kapchan, an all-night ceremony calls each spirit with its own rhythm and colour. The spirit is welcomed and named, not expelled.</p></div>
+            <div class="c-in"><h4>Where it shows in <span class="t">I win</span></h4><p>The wordless middle follows the same steps. The spell is cast in sound and titles, undone by a confession and a silence, then named from inside: a possession, a diagnosis of the ego, a double. The cure is to give the spell a name and a place.</p></div>
+          </aside>
+        <aside class="remember"><span class="eyebrow">What to remember</span>
+          <ul><li>The second term’s lesson is that the spell was never only outside.</li>
+            <li>An algorithm that reads lyrics cannot see this lesson. It is taught in titles, languages and silences.</li></ul></aside>
+      </section>
+
+      <!-- ============================== MODULE 8 -->
+      <section class="module" id="m8">
+        <div class="mod-head">
+          <div class="eyebrow"><b>Module 8</b> · The shuffle lab</div>
+          <h2>Could an algorithm have made this course?</h2>
+          <div class="short"><span class="eyebrow">Short answer</span><p>Not easily. Each of Jung’s five checks is a coin toss on its own, but fewer than 4 random orders in 100 pass all five. The curator’s order passes all five.</p></div>
+        </div>
+        <div class="prose">
+          <span class="eyebrow" style="color:var(--accent)">Analysis</span><p>Streaming platforms also put songs in order, but they order them for the next minute, not for the soul. Autoplay picks the song most like the last, so it flows without ever turning. A shuffle turns without reasons. A sort by mood climbs without ever coming back. None of them can teach, because teaching needs a lesson placed at the right moment and a return to what was not yet learned. The playlist is not smoother than a shuffle; it is better placed. Its art is placement: a warning where the meaning changes, a silence where words would fail, a monster kept beside the shelter instead of thrown out, an answer given in another language. Mix makers call such a turn the alarm clock in the mix. In a school it is called a lesson.</p>
+          <p>The lab below asks five questions of any order of the 32 songs with words. Together they describe Jung’s path.</p>
+        </div>
+        <div class="figure">
+          <div class="panel" style="display:grid;gap:16px">
+            <div class="controls">
+              <button type="button" class="btn" id="oCur">The curator’s order</button>
+              <button type="button" class="btn primary" id="oShuf">Shuffle once</button>
+              <button type="button" class="btn" id="oShuf1k">Shuffle 1,000 times</button>
+              <button type="button" class="btn" id="oAuto">Autoplay</button>
+              <button type="button" class="btn" id="oRamp">Mood sort</button>
+            </div>
+            <div class="controls">
+              <span style="font-size:14px;color:var(--ink-2)">Figures from</span>
+              <div class="seg" role="group" aria-label="Figures"><button type="button" id="labData" aria-pressed="true">The data (3 groups)</button><button type="button" id="labTheory" aria-pressed="false">Jung’s theory (4 figures)</button></div>
+            </div>
+            <p class="status" id="labStatus" aria-live="polite"></p>
+            <div class="scroll-x"><div class="ostrip" id="labStrip"></div></div>
+            <div class="lab-grid">
+              <div class="lc" id="labChart"></div>
+              <div style="display:grid;gap:10px;align-content:start">
+                <div style="display:flex;align-items:baseline;gap:10px"><span class="score" id="labScore">5/5</span><span style="color:var(--muted);font-size:14px">checks passed</span></div>
+                <ul class="checks" id="labChecks"></ul>
+                <p style="font-size:13.5px;color:var(--ink-2)" id="labSmooth"></p>
+              </div>
+            </div>
+          </div>
+          <div class="panel tally">
+            <div style="display:grid;gap:8px">
+              <h3>Your shuffles so far</h3>
+              <p id="tallyText" style="font-size:15px"></p>
+              <button type="button" class="btn" id="tallyReset" style="justify-self:start">Reset my count</button>
+            </div>
+            <div style="display:grid;gap:8px">
+              <div class="legend"><span><i style="--c:var(--ink-2)"></i>Our 10,000 shuffles</span><span><i style="--c:var(--accent)"></i>Your shuffles</span></div>
+              <div class="hist" id="hist"></div>
+              <p class="cap" style="font-size:12.5px;color:var(--muted)">Share of random orders by number of checks passed. The curator’s order sits in the last column.</p>
+            </div>
+          </div>
+        </div>
+        <div class="prose">
+          <h3>What the curator does that machines do not</h3>
+          <p><b>Smoothness is not the goal.</b> The curator’s order is about as smooth as a shuffle (0.07 against 0.00 on a scale where 1 means every song resembles the last). Autoplay is far smoother (about 0.56) and still rarely draws the path.</p>
+          <p><b>Placement is.</b> The two signals sit where the vocabulary turns most sharply. The songs on either side of them share very few theme words (similarity 0.10, against 0.39 in a typical shuffle). Random placements are this sharp about once in 100.</p>
+          <p><b>A mood sort can never bring the shadow back.</b> A sorted line has no second turn.</p>
+        </div>
+        <div class="concepts"><aside class="concept" id="c-perm">
+            <div class="c-head"><span class="eyebrow">Concept</span><div class="c-term">The shuffle test</div><span class="c-src">a permutation test</span></div>
+            <div><h4>What it says</h4><p>To know whether a pattern comes from the order, keep the songs and break the order. Deal them into random positions thousands of times and count how often the pattern appears. That share is the p-value. A small share means the real order does something chance rarely does.</p></div>
+            <div class="c-in"><h4>Where it shows in <span class="t">I win</span></h4><p>Here the 32 songs with words are shuffled 10,000 times. Each of the five checks passes in about half of the shuffles; all five together pass in 3.8%. The two signals and the rise of “you” are tested in the same way.</p></div>
+          </aside><aside class="concept" id="c-sim">
+            <div class="c-head"><span class="eyebrow">Concept</span><div class="c-term">Similarity-based playlists</div><span class="c-src">G. Bonnin and D. Jannach, <em>ACM Computing Surveys</em> (2014)</span></div>
+            <div><h4>What it says</h4><p>Most automatic playlist generators choose each next song for its similarity to the last one, or to a seed song, and judge success by smooth transitions. Cunningham and colleagues already noted that such systems sit between loose personal playlists and formal mixes.</p></div>
+            <div class="c-in"><h4>Where it shows in <span class="t">I win</span></h4><p>The autoplay in the lab follows that logic with the lyric themes. It is very smooth (0.56) and passes all five checks from 7 of its 32 starting songs with the data groups, but never with Jung’s own grouping.</p></div>
+          </aside><aside class="concept" id="c-coh">
+            <div class="c-head"><span class="eyebrow">Concept</span><div class="c-term">Coherence</div><span class="c-src">H. Schweiger, E. Parada-Cabaleiro and M. Schedl, <em>EPJ Data Science</em> (2025)</span></div>
+            <div><h4>What it says</h4><p>Schweiger and colleagues define coherence as one minus the variation between neighbouring tracks, divided by the variation across the whole playlist. A shuffled playlist scores about 0, a smooth one scores above 0, and deliberate jolts score below 0. Across 650,000 user playlists, curators tend to be coherent.</p></div>
+            <div class="c-in"><h4>Where it shows in <span class="t">I win</span></h4><p><span class="t">I win</span> scores 0.07 on its lyric themes, close to a shuffle. Its art is not smoothness. It places sharp turns where the meaning changes: the alarm clock in the mix that Cunningham’s mix makers describe.</p></div>
+          </aside></div>
+        <div class="prose analysis"><span class="eyebrow">Analysis</span><p>The lab turns Jung’s line into five questions that any order of the same songs can be asked. Does the mask lead the opening? Does the shadow peak before the Self? Does the Self rise above the mask by the end? Does the shadow fall away and come back? Does “you” grow more frequent? Each question alone is close to a coin toss: about half of 10,000 random orders pass it. Together they are rare. The playlist passes all five with the three constellations, which fewer than one random order in twenty-five manages, and a sort by mood never brings the shadow back at all. With Jung’s four figures fixed from theory it passes four. The mask does not fully lower there, because the close returns to the stage with <span class="t">Movie</span> beside the sanctuary, and four of five is reached by about one random order in five. Both readings agree on the line itself: the shadow peaks at the end of the war cry, the Self in the integration, the shadow comes back in the second term, and “you” nearly doubles from the first quarter to the last.</p></div>
+        <div class="quiz" data-q="7"></div>
+      </section>
+
+      <!-- ============================== MODULE 9 -->
+      <section class="module" id="m9">
+        <div class="mod-head">
+          <div class="eyebrow"><b>Module 9</b> · What this adds</div>
+          <h2>What does this work add to what we knew?</h2>
+          <div class="short"><span class="eyebrow">Short answer</span><p>It reads the order of a playlist, not the taste behind it. It joins a close reading, a word count and Jung’s figures in one frame. And it tests every reading against chance and machines, so the labels can fail.</p></div>
+        </div>
+        <div class="figure">
+          <h3>Four ways of reading a listener</h3>
+          <div class="panel scroll-x">
+            <table class="cmp">
+              <thead><tr><th></th><th>Spotify’s profiles</th><th>Coherence research</th><th>Interview studies</th><th class="me">This course</th></tr></thead>
+              <tbody>
+                <tr><th>What is read</th><td>Listening habits over a year: replays, skips, genres, playlists made</td><td>Audio similarity between neighbouring tracks</td><td>What curators say about their playlists</td><td class="me">The order of one playlist: words, addressee, themes and figures, song by song</td></tr>
+                <tr><th>Unit</th><td>The listener</td><td>Pairs of neighbouring tracks</td><td>The practice</td><td class="me">The whole sequence</td></tr>
+                <tr><th>Result</th><td>A character, an age, a club</td><td>A smoothness score</td><td>Themes and motives</td><td class="me">A path with lessons: Jung’s line, drawn twice</td></tr>
+                <tr><th>Tested against chance</th><td>No</td><td>Yes, statistically</td><td>No</td><td class="me">Yes: 10,000 shuffles, autoplay and a mood sort</td></tr>
+                <tr><th>Who holds the pen</th><td>The platform</td><td>The researcher</td><td>The researcher, with the curator</td><td class="me">The curator, with a protocol anyone can repeat</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="cap">Examples: Spotify’s 2023 characters and 2025 Clubs; Schweiger et al. (2025); DeNora (2000), Cunningham et al. (2006), Sesigür (2019).</p>
+        </div>
+        <h3>Six contributions</h3>
+        <ol class="contrib">
+          <li><div><b>From taste to order.</b>Spotify’s characters and the psychology of musical preference read what people play and how much. This work reads where each song is placed and what the placement does. The unit is the sequence, which is what curators actually make.</div></li>
+          <li><div><b>Three readings in one frame.</b>A close reading of whom each song addresses, a lexicon of 14 themes and Jung’s four figures are lined up song by song. Each reading checks the others: the address shows the turn from “them” to “you”, the lexicon measures it, and the figures give it a name.</div></li>
+          <li><div><b>Labels that can fail.</b>Every archetype claim is tested against 10,000 shuffles of the same songs and two machine orders. Some claims pass: the signals sit at the sharpest turns, “you” rises, and the full line appears in only 3.8% of shuffles. Others fail: single theme pairs are at chance level. A horoscope never fails; this reading can.</div></li>
+          <li><div><b>A measurable definition of the art.</b>Coherence research asks how smooth a playlist is. Here the curator’s order is no smoother than chance, yet it places thresholds and returns where chance and similarity rarely do. That gives a number to the “art” that mix makers describe.</div></li>
+          <li><div><b>A bridge between therapy and platforms.</b>Music therapy has used sequenced programmes for inner journeys since the 1970s, and platform studies describe how algorithms sequence us. This work shows a listener writing her own programme with platform songs and reads it with tools from both fields.</div></li>
+          <li><div><b>A protocol anyone can repeat.</b>The workbook keeps every count live. Another curator can swap in her songs, mark her own sections and run the same tests. The work takes up Sesigür’s call to take curators’ own discourse seriously, and Schweiger’s call to bring personality and context into playlist research.</div></li>
+        </ol>
+        <div class="figure">
+          <h3>Who can use it</h3>
+          <div class="users">
+            <div class="panel"><span class="eyebrow">Curators</span><p>A mirror that can be checked. The method shows which parts of a self-portrait come from the songs and which come from the order.</p></div>
+            <div class="panel"><span class="eyebrow">Therapists</span><p>A listening programme written by the client, with its thresholds and returns already marked, as material for a session.</p></div>
+            <div class="panel"><span class="eyebrow">Researchers</span><p>Order treated as data, and a reading of archetypes that can be tested and can fail.</p></div>
+            <div class="panel"><span class="eyebrow">Platform designers</span><p>A shuffle with ordering rules, as Cunningham and colleagues proposed in 2006, could keep a curator’s thresholds in place.</p></div>
+          </div>
+        </div>
+        <aside class="remember"><span class="eyebrow">What to remember</span>
+          <ul><li>Spotify reads habits; this course reads the order and what it does.</li>
+            <li>The labels come with numbers, and the numbers come with a test that can fail.</li>
+            <li>The method is repeatable: any curator can run it on her own playlist.</li></ul></aside>
+      </section>
+
+      <!-- ============================== MODULE 10 -->
+      <section class="module" id="m10">
+        <div class="mod-head">
+          <div class="eyebrow"><b>Module 10</b> · Your turn</div>
+          <h2>How can you use this to know yourself?</h2>
+          <div class="short"><span class="eyebrow">Short answer</span><p>Curate with intention, then test what your order adds. What survives the shuffle is yours.</p></div>
+        </div>
+        <ol class="steps">
+          <li><div><b>Curate in turns.</b>Let songs answer one another. Choose for words and mood together.</div></li>
+          <li><div><b>Mark the thresholds.</b>Place a spoken signal or a silence where you feel a turn.</div></li>
+          <li><div><b>Name the addressee.</b>For each song, write whom it speaks to: them, you, us or yourself.</div></li>
+          <li><div><b>Count the themes.</b>Score the lyrics with a lexicon and read each section’s themes.</div></li>
+          <li><div><b>Shuffle.</b>Keep only the patterns your order makes and random orders of the same songs do not.</div></li>
+          <li><div><b>Read the figures.</b>See which figure leads each section and whether the shadow returns.</div></li>
+          <li><div><b>Write back and re-curate.</b>Name what you see, change the order, and listen again.</div></li>
+        </ol>
+        <div class="prose analysis"><span class="eyebrow">Analysis</span><p>This suggests a path to self-discovery that is neither a personality quiz nor an algorithm’s portrait. Curate in turns, letting songs answer one another. Mark the thresholds, with a spoken signal or a silence, where the turn is felt. Ask of every song to whom it speaks: them, you, us or oneself. Then listen to the same songs in another order: whatever disappears when they are shuffled is what the curator added by placing them. Write down what you see, change the order and listen again. Jung’s figures are not a diagnosis here but the names of the lessons, as useful and as provisional as the names of subjects in a school. What they reveal is a movement: from fighting enemies outside to speaking to someone close, and from casting spells to finding them within.</p></div>
+        <div class="prose">
+          <h3>What this course does not claim</h3>
+          <p>It reads one playlist, and only 32 of its songs carry enough words to count. A lexicon counts words; it misses irony and metaphor. Whom a song speaks to is a reading, not a measurement. Links between single pairs of themes are no stronger than chance: 8 of 156 tests passed, about what chance predicts. Jung’s figures serve here as names for lessons, not as a diagnosis.</p>
+        </div>
+        <p class="coda">Keats’s child learns to read with the heart for a hornbook. <span class="t">I win</span> shows a soul learning to read itself with a playlist for a book. Music brings the feeling and curation brings the order, and the order, unlike an algorithm, knows when to come back.</p>
+        <div class="readings" style="gap:10px"><span class="eyebrow">References</span><ol class="refs"><li>Anderson, A., Maystre, L., Anderson, I., Mehrotra, R. and Lalmas, M. (2020). Algorithmic effects on the diversity of consumption on Spotify. <em>Proceedings of The Web Conference 2020</em>, 2155–2165.</li><li>Bonnin, G. and Jannach, D. (2014). Automated generation of music playlists: Survey and experiments. <em>ACM Computing Surveys</em>, 47(2), 1–35.</li><li>Bonny, H. L. (2002). <em>Music and Consciousness: The Evolution of Guided Imagery and Music</em> (L. Summer, Ed.). Barcelona Publishers.</li><li>Bruner, J. S. (1960). <em>The Process of Education</em>. Harvard University Press.</li><li>Cunningham, S. J., Bainbridge, D. and Falconer, A. (2006). “More of an art than a science”: Supporting the creation of playlists and mixes. <em>Proceedings of ISMIR 2006</em>, 240–245.</li><li>de Martino, E. (2005). <em>The Land of Remorse: A Study of Southern Italian Tarantism</em> (D. L. Zinn, Trans.). Free Association Books. (First published 1961.)</li><li>DeNora, T. (2000). <em>Music in Everyday Life</em>. Cambridge University Press.</li><li>Fisher, H. E., Brown, L. L., Aron, A., Strong, G. and Mashek, D. (2010). Reward, addiction, and emotion regulation systems associated with rejection in love. <em>Journal of Neurophysiology</em>, 104, 51–60.</li><li>Forer, B. R. (1949). The fallacy of personal validation. <em>Journal of Abnormal and Social Psychology</em>, 44(1), 118–123.</li><li>Giles, H., Coupland, N. and Coupland, J. (1991). Accommodation theory: Communication, context, and consequence. In <em>Contexts of Accommodation</em>. Cambridge University Press.</li><li>Greenberg, L. S. (1979). Resolving splits: Use of the two chair technique. <em>Psychotherapy: Theory, Research and Practice</em>, 16(3), 316–324.</li><li>Gumperz, J. J. (1982). <em>Discourse Strategies</em>. Cambridge University Press.</li><li>Hermans, H. J. M., Kempen, H. J. G. and van Loon, R. J. P. (1992). The dialogical self: Beyond individualism and rationalism. <em>American Psychologist</em>, 47(1), 23–33.</li><li>Hillman, J. (1985). <em>Anima: An Anatomy of a Personified Notion</em>. Spring Publications.</li><li>Jung, C. G. (1959). <em>Aion: Researches into the Phenomenology of the Self</em> (Collected Works 9ii). Princeton University Press. (First published 1951.)</li><li>Jung, C. G. (1963). <em>Memories, Dreams, Reflections</em> (A. Jaffé, Ed.). Pantheon.</li><li>Kapchan, D. (2007). <em>Traveling Spirit Masters: Moroccan Gnawa Trance and Music in the Global Marketplace</em>. Wesleyan University Press.</li><li>Keats, J. (1819). Letter to George and Georgiana Keats, February to May 1819 (the “vale of Soul-making” passage, April 1819).</li><li>Lieberman, M. D., Eisenberger, N. I., Crockett, M. J., Tom, S. M., Pfeifer, J. H. and Way, B. M. (2007). Putting feelings into words: Affect labeling disrupts amygdala activity in response to affective stimuli. <em>Psychological Science</em>, 18(5), 421–428.</li><li>Mark, M. and Pearson, C. S. (2001). <em>The Hero and the Outlaw: Building Extraordinary Brands Through the Power of Archetypes</em>. McGraw-Hill.</li><li>Otto, R. (1923). <em>The Idea of the Holy</em> (J. W. Harvey, Trans.). Oxford University Press.</li><li>Plato. <em>Republic</em>, Book III (B. Jowett, Trans.).</li><li>Prey, R. (2018). Nothing personal: Algorithmic individuation on music streaming platforms. <em>Media, Culture and Society</em>, 40(7), 1086–1100.</li><li>Rentfrow, P. J. and Gosling, S. D. (2003). The do re mi’s of everyday life: The structure and personality correlates of music preferences. <em>Journal of Personality and Social Psychology</em>, 84(6), 1236–1256.</li><li>Rouget, G. (1985). <em>Music and Trance: A Theory of the Relations between Music and Possession</em>. University of Chicago Press. (First published 1980.)</li><li>Schweiger, H., Parada-Cabaleiro, E. and Schedl, M. (2025). The impact of playlist characteristics on coherence in user-curated music playlists. <em>EPJ Data Science</em>, 14, 24.</li><li>Seaver, N. (2019). Captivating algorithms: Recommender systems as traps. <em>Journal of Material Culture</em>, 24(4), 421–436.</li><li>Sesigür, O. (2019). <em>A Study of Personal Streaming Playlists through Digital Curation</em> (PhD thesis). Istanbul Bilgi University.</li><li>Sheffield, R. (2007). <em>Love Is a Mix Tape: Life and Loss, One Song at a Time</em>. Crown.</li><li>Spotify (2023). Wrapped 2023, “Me in 2023” listening characters (November 2023); daylist (September 2023). Spotify (2025). Wrapped 2025: Listening Age and Clubs (December 2025).</li><li>Van Gennep, A. (1960). <em>The Rites of Passage</em>. University of Chicago Press. (First published 1909.)</li><li>Wärja, M. (1994). Sounds of music through the spiraling path of individuation: A Jungian approach to music psychotherapy. <em>Music Therapy Perspectives</em>, 12(2), 75–83.</li><li>Winnicott, D. W. (1971). <em>Playing and Reality</em>. Tavistock.</li></ol></div>
+      </section>
+    </main>
+  </div>
+  <footer>Built from the analysis in <em>The Line of the Self</em> and the <em>I win</em> research workbook. Songs are named by title only; no lyrics are quoted.</footer>
+</div>
+<div id="tip" hidden></div>
+
+<script id="data" type="application/json">{"themes": [{"key": "Sight and mirrors", "label": "Sight and mirrors", "short": "Sight", "mean": 2.349, "present": 23, "data": "Self", "jung": "Self", "top_n": 33, "top_title": "The Less I Know The Better", "top": 6.11, "share": 0.0813, "desc": "Looking, being seen, eyes, mirrors, images."}, {"key": "Speech and silence", "label": "Speech and silence", "short": "Speech", "mean": 2.389, "present": 22, "data": "Persona", "jung": "Persona", "top_n": 24, "top_title": "Ma meilleure amie", "top": 7.2, "share": 0.0942, "desc": "Saying, not saying, voices, words, language, silence."}, {"key": "Death and the dead", "label": "Death and the dead", "short": "Death", "mean": 0.992, "present": 10, "data": "Shadow", "jung": "Shadow", "top_n": 7, "top_title": "Thought I Was Dead (feat. ScHoolboy Q, Santigold)", "top": 8.66, "share": 0.2729, "desc": "Dying, the dead, ghosts, graves, killing."}, {"key": "Devil and the sacred", "label": "Devil and the sacred", "short": "Devil/sacred", "mean": 0.951, "present": 7, "data": "Shadow", "jung": "Shadow", "top_n": 37, "top_title": "Sanctuary", "top": 9.52, "share": 0.313, "desc": "God, the devil, hell, angels, prayer, sin."}, {"key": "Magic", "label": "Magic", "short": "Magic", "mean": 0.09, "present": 1, "data": "none", "jung": "none", "top_n": 7, "top_title": "Thought I Was Dead (feat. ScHoolboy Q, Santigold)", "top": 2.89, "share": 1.0, "desc": "Spells, charms, wands, trance, hypnosis, the magician."}, {"key": "Power and victory", "label": "Power and victory", "short": "Power", "mean": 1.108, "present": 10, "data": "Persona", "jung": "Persona", "top_n": 14, "top_title": "I'm Still Standing", "top": 7.97, "share": 0.2246, "desc": "Winning, crowns, kings, strength, money as rank."}, {"key": "Loyalty and trust", "label": "Loyalty and trust", "short": "Loyalty", "mean": 1.296, "present": 11, "data": "Shadow", "jung": "Anima", "top_n": 10, "top_title": "LOYALTY. (feat. Rihanna)", "top": 16.37, "share": 0.3948, "desc": "Trust, lies, truth, betrayal, promises, togetherness."}, {"key": "Highs and substances", "label": "Highs and substances", "short": "Highs", "mean": 1.111, "present": 7, "data": "Shadow", "jung": "Shadow", "top_n": 35, "top_title": "Wassup", "top": 8.78, "share": 0.247, "desc": "Drugs, alcohol, smoke, being high, getting sober."}, {"key": "Shelter and care", "label": "Shelter and care", "short": "Shelter", "mean": 1.718, "present": 10, "data": "Self", "jung": "Self", "top_n": 28, "top_title": "Safe (Joris Voorn Remix)", "top": 15.69, "share": 0.2853, "desc": "Safety, home, rest, comfort, healing, holding."}, {"key": "Water, sky and night", "label": "Water, sky and night", "short": "Night/water", "mean": 2.709, "present": 11, "data": "Self", "jung": "Anima", "top_n": 39, "top_title": "I Follow Rivers (The Magician Remix)", "top": 25.27, "share": 0.2916, "desc": "Night, moon, sun, stars, sea, rivers, darkness."}, {"key": "Return and repetition", "label": "Return and repetition", "short": "Return", "mean": 3.084, "present": 19, "data": "Self", "jung": "Self", "top_n": 13, "top_title": "Replay", "top": 20.5, "share": 0.2077, "desc": "Again, back, replay, memory, waiting, forever."}, {"key": "Animals and beasts", "label": "Animals and beasts", "short": "Beasts", "mean": 0.766, "present": 10, "data": "Self", "jung": "Shadow", "top_n": 30, "top_title": "She's My Collar (feat. Kali Uchis)", "top": 5.28, "share": 0.2153, "desc": "Monsters, beasts, snakes, dogs, prey, creatures."}, {"key": "The self and its doubles", "label": "The self and its doubles", "short": "Self/doubles", "mean": 0.627, "present": 8, "data": "Self", "jung": "Self", "top_n": 16, "top_title": "i", "top": 7.98, "share": 0.3979, "desc": "The self, ego, masks, doubles, shadows, identity."}, {"key": "Circus and play", "label": "Theater and party", "short": "Theater", "mean": 1.432, "present": 12, "data": "Persona", "jung": "Persona", "top_n": 38, "top_title": "Movie", "top": 9.87, "share": 0.2154, "desc": "Games, play, dance, show, stage, film, the circus."}], "tracks": [{"n": 1, "title": "FTCU", "artist": "Nicki Minaj", "voice": "A", "section": "Alone", "scored": true, "type": "Lyrics", "words": 308, "register": "Attack", "target": "Them", "op": null, "opLabel": null, "lang": null, "s": [0.974, 3.896, 0.0, 0.0, 0.0, 2.922, 0.974, 0.649, 0.974, 0.0, 0.325, 0.0, 1.299, 5.195], "p": [0.717, 0.0755, 0.0189, 0.1887], "dens": 17.21}, {"n": 2, "title": "Think U The Shit (Fart)", "artist": "Ice Spice", "voice": "A", "section": "Alone", "scored": true, "type": "Lyrics", "words": 411, "register": "Attack", "target": "Them", "op": null, "opLabel": null, "lang": null, "s": [2.433, 2.92, 0.0, 0.973, 0.0, 1.946, 0.0, 0.0, 0.73, 0.0, 0.0, 0.0, 0.487, 0.487], "p": [0.8125, 0.1094, 0.0, 0.0781], "dens": 9.98}, {"n": 3, "title": "HISS", "artist": "Megan Thee Stallion", "voice": "A", "section": "Alone", "scored": true, "type": "Lyrics", "words": 909, "register": "Attack", "target": "Them", "op": null, "opLabel": null, "lang": null, "s": [0.22, 2.09, 0.22, 0.44, 0.0, 1.1, 1.43, 0.33, 0.77, 0.0, 1.87, 0.22, 0.0, 0.66], "p": [0.6813, 0.1758, 0.0, 0.1429], "dens": 9.35}, {"n": 4, "title": "D'Evils", "artist": "SiR", "voice": "A", "section": "Alone", "scored": true, "type": "Lyrics", "words": 246, "register": "Refuge", "target": "Them", "op": null, "opLabel": null, "lang": null, "s": [1.626, 0.813, 0.0, 3.659, 0.0, 0.813, 0.0, 3.659, 1.626, 0.0, 1.626, 0.0, 0.0, 1.626], "p": [0.6579, 0.2368, 0.1053, 0.0], "dens": 15.45}, {"n": 5, "title": "Sticky (feat. GloRilla, Sexyy Red, Lil Wayne)", "artist": "Tyler, The Creator", "voice": "A", "section": "Alone", "scored": true, "type": "Lyrics", "words": 674, "register": "Attack", "target": "Them", "op": null, "opLabel": null, "lang": null, "s": [1.187, 2.819, 0.0, 0.445, 0.0, 0.0, 0.148, 0.742, 0.593, 0.0, 0.297, 0.0, 0.0, 0.0], "p": [0.6724, 0.1724, 0.0345, 0.1207], "dens": 6.23}, {"n": 6, "title": "Drop It Like It's Hot", "artist": "Snoop Dogg, Pharrell Williams", "voice": "A", "section": "Alone", "scored": false, "type": "Signal", "words": 1, "register": "Attack", "target": "Them", "op": null, "opLabel": null, "lang": null}, {"n": 7, "title": "Thought I Was Dead (feat. ScHoolboy Q, Santigold)", "artist": "Tyler, The Creator", "voice": "A", "section": "Alone", "scored": true, "type": "Lyrics", "words": 277, "register": "Defiance", "target": "Them", "op": null, "opLabel": null, "lang": null, "s": [3.61, 0.0, 8.664, 0.0, 2.888, 0.722, 0.722, 0.722, 0.361, 0.0, 0.722, 1.083, 0.0, 3.61], "p": [0.6341, 0.1463, 0.0, 0.2195], "dens": 23.1}, {"n": 8, "title": "Alright", "artist": "Kendrick Lamar", "voice": "A", "section": "Alone", "scored": true, "type": "Lyrics", "words": 536, "register": "Defiance", "target": "Them", "op": null, "opLabel": null, "lang": null, "s": [2.052, 3.172, 1.493, 3.918, 0.0, 0.373, 0.0, 0.0, 0.746, 0.0, 0.746, 1.306, 0.0, 0.0], "p": [0.5321, 0.2294, 0.2202, 0.0183], "dens": 13.81}, {"n": 9, "title": "Stronger", "artist": "Kanye West", "voice": "A", "section": "Alone", "scored": true, "type": "Lyrics", "words": 424, "register": "Defiance", "target": "Them", "op": null, "opLabel": null, "lang": null, "s": [0.0, 0.943, 0.943, 3.066, 0.0, 3.302, 0.708, 0.943, 0.0, 2.123, 0.943, 0.0, 0.0, 1.179], "p": [0.597, 0.2687, 0.0746, 0.0597], "dens": 14.15}, {"n": 10, "title": "LOYALTY. (feat. Rihanna)", "artist": "Kendrick Lamar, Rihanna", "voice": "Pic", "section": "The pact", "scored": true, "type": "Lyrics", "words": 507, "register": "Pact", "target": "Us", "op": null, "opLabel": null, "lang": null, "s": [0.394, 3.55, 2.367, 0.592, 0.0, 1.578, 16.371, 2.959, 0.789, 0.986, 1.775, 0.0, 0.0, 0.0], "p": [0.6029, 0.3382, 0.0441, 0.0147], "dens": 31.36}, {"n": 11, "title": "Day 'N' Nite (Nightmare)", "artist": "Kid Cudi", "voice": "A", "section": "The pact", "scored": true, "type": "Lyrics", "words": 205, "register": "Wound", "target": "Self", "op": null, "opLabel": null, "lang": null, "s": [3.902, 1.463, 0.0, 0.0, 0.0, 0.976, 0.0, 4.39, 2.439, 15.61, 0.0, 0.0, 0.0, 3.415], "p": [0.8571, 0.0714, 0.0714, 0.0], "dens": 32.2}, {"n": 12, "title": "INDAR ABAWI", "artist": "Tchubi", "voice": "Pic", "section": "The pact", "scored": false, "type": "Signal", "words": null, "register": "Attack", "target": "Them", "op": null, "opLabel": null, "lang": null}, {"n": 13, "title": "Replay", "artist": "Lady Gaga", "voice": "A", "section": "Integration", "scored": true, "type": "Lyrics", "words": 239, "register": "Wound", "target": "You", "op": null, "opLabel": null, "lang": null, "s": [0.0, 2.51, 2.51, 0.0, 0.0, 0.0, 0.0, 0.837, 0.418, 0.0, 20.502, 2.51, 1.255, 2.092], "p": [0.7576, 0.2424, 0.0, 0.0], "dens": 32.64}, {"n": 14, "title": "I'm Still Standing", "artist": "Elton John", "voice": "Pic", "section": "Integration", "scored": true, "type": "Lyrics", "words": 251, "register": "Defiance", "target": "You", "op": null, "opLabel": null, "lang": null, "s": [2.789, 0.0, 0.0, 0.0, 0.0, 7.968, 1.594, 0.0, 0.797, 0.0, 7.171, 0.0, 1.195, 2.39], "p": [0.561, 0.4146, 0.0244, 0.0], "dens": 23.9}, {"n": 15, "title": "Butterfly's Repose", "artist": "Zabawa", "voice": "A", "section": "Integration", "scored": true, "type": "Lyrics", "words": 184, "register": "Tenderness", "target": "You", "op": null, "opLabel": null, "lang": null, "s": [4.891, 2.717, 0.543, 1.63, 0.0, 2.174, 0.0, 0.0, 6.522, 3.261, 3.261, 3.261, 1.63, 0.0], "p": [0.3889, 0.5556, 0.0278, 0.0278], "dens": 29.89}, {"n": 16, "title": "i", "artist": "Kendrick Lamar", "voice": "Pic", "section": "Integration", "scored": true, "type": "Lyrics", "words": 639, "register": "Defiance", "target": "Them", "op": null, "opLabel": null, "lang": null, "s": [4.069, 2.034, 0.782, 3.756, 0.0, 0.626, 0.469, 0.469, 3.912, 2.504, 2.973, 0.469, 7.981, 0.782], "p": [0.7879, 0.1717, 0.0101, 0.0303], "dens": 30.83}, {"n": 17, "title": "On Melancholy Hill", "artist": "Gorillaz", "voice": "Pic", "section": "Integration", "scored": true, "type": "Lyrics", "words": 130, "register": "Pact", "target": "Us", "op": null, "opLabel": null, "lang": null, "s": [4.615, 0.769, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 3.846, 3.846, 0.0, 2.308, 0.0, 0.0], "p": [0.3913, 0.5217, 0.087, 0.0], "dens": 15.38}, {"n": 18, "title": "Abracadabra (Gesaffelstein Remix)", "artist": "Lady Gaga, Gesaffelstein", "voice": "A", "section": "Techno break", "scored": false, "type": "Title only", "words": 1, "register": "Pulse", "target": "No words", "op": "Cast a spell", "opLabel": "spell word", "lang": "title only"}, {"n": 19, "title": "Express Yourself", "artist": "A B P, Karashnikov", "voice": "A", "section": "Techno break", "scored": false, "type": "Title only", "words": 2, "register": "Pulse", "target": "You", "op": "Cast a spell", "opLabel": "command", "lang": "title only"}, {"n": 20, "title": "I SMELL FEAR", "artist": "RAGETRAIN", "voice": "A", "section": "Techno break", "scored": false, "type": "Title only", "words": 3, "register": "Pulse", "target": "No words", "op": "Cast a spell", "opLabel": "scent of prey", "lang": "title only"}, {"n": 21, "title": "Passi (Deborah De Luca Remix)", "artist": "Io E Palmieri, Deborah De Luca", "voice": "Pic", "section": "Techno break", "scored": true, "type": "Lyrics", "words": 84, "register": "Wound", "target": "You", "op": "Undo the spell", "opLabel": "confession", "lang": "Italian", "s": [5.952, 4.762, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.381, 0.0, 3.571, 0.0, 0.0, 7.143], "p": [0.4, 0.6, 0.0, 0.0], "dens": 23.81}, {"n": 22, "title": "Intro", "artist": "The xx", "voice": "Pic", "section": "Techno break", "scored": false, "type": "Instrumental", "words": 1, "register": "Pulse", "target": "No words", "op": "Undo the spell", "opLabel": "silence", "lang": "no words"}, {"n": 23, "title": "Lemon", "artist": "N.E.R.D, Rihanna, Pharrell Williams", "voice": "A", "section": "Counter magic", "scored": true, "type": "Lyrics", "words": 254, "register": "Attack", "target": "Them", "op": "Defend against deceit", "opLabel": "charm and war", "lang": "English", "s": [3.543, 1.969, 0.394, 0.0, 0.0, 0.0, 1.969, 0.787, 0.787, 0.787, 4.724, 0.787, 0.0, 0.0], "p": [0.6774, 0.1935, 0.0, 0.129], "dens": 15.75}, {"n": 24, "title": "Ma meilleure amie", "artist": "Vald", "voice": "A", "section": "Counter magic", "scored": true, "type": "Lyrics", "words": 264, "register": "Refuge", "target": "Self", "op": "Diagnose the spell inside", "opLabel": "possession", "lang": "French", "s": [4.924, 7.197, 2.273, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.758, 4.545, 1.894, 1.136, 0.0], "p": [0.975, 0.0, 0.025, 0.0], "dens": 22.73}, {"n": 25, "title": "POWER", "artist": "Kanye West", "voice": "A", "section": "Counter magic", "scored": true, "type": "Lyrics", "words": 583, "register": "Wound", "target": "Self", "op": "Diagnose the spell inside", "opLabel": "ego's diagnosis", "lang": "English", "s": [1.544, 6.003, 1.887, 0.686, 0.0, 5.66, 0.0, 1.201, 0.858, 0.0, 0.0, 0.0, 2.573, 0.343], "p": [0.5769, 0.1282, 0.0769, 0.2179], "dens": 20.75}, {"n": 26, "title": "Alter Ego", "artist": "NTO", "voice": "Pic", "section": "Wordless response", "scored": false, "type": "Instrumental", "words": 2, "register": "Pulse", "target": "No words", "op": "Diagnose the spell inside", "opLabel": "the double", "lang": "no words"}, {"n": 27, "title": "Not Like Us", "artist": "Kendrick Lamar", "voice": "A", "section": "Back to dialogue", "scored": true, "type": "Lyrics", "words": 546, "register": "Attack", "target": "Them", "op": null, "opLabel": null, "lang": null, "s": [2.198, 2.564, 1.099, 1.465, 0.0, 0.0, 0.549, 0.549, 0.733, 0.733, 0.366, 2.564, 0.0, 1.465], "p": [0.3582, 0.3134, 0.0896, 0.2388], "dens": 14.29}, {"n": 28, "title": "Safe (Joris Voorn Remix)", "artist": "Monkey Safari, Joris Voorn", "voice": "A", "section": "Back to dialogue", "scored": true, "type": "Lyrics", "words": 51, "register": "Tenderness", "target": "You", "op": null, "opLabel": null, "lang": null, "s": [5.882, 3.922, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 15.686, 17.647, 3.922, 0.0, 0.0, 3.922], "p": [0.5333, 0.4667, 0.0, 0.0], "dens": 50.98}, {"n": 29, "title": "Bad Girls", "artist": "M.I.A.", "voice": "Pic", "section": "Back to dialogue", "scored": true, "type": "Lyrics", "words": 208, "register": "Defiance", "target": "Us", "op": null, "opLabel": null, "lang": null, "s": [2.885, 0.962, 3.846, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.923, 0.0, 0.0, 0.0], "p": [0.7419, 0.2258, 0.0323, 0.0], "dens": 9.62}, {"n": 30, "title": "She's My Collar (feat. Kali Uchis)", "artist": "Gorillaz, Kali Uchis", "voice": "A", "section": "Back to dialogue", "scored": true, "type": "Lyrics", "words": 360, "register": "Pact", "target": "You", "op": null, "opLabel": null, "lang": null, "s": [0.0, 1.944, 0.833, 0.278, 0.0, 0.556, 1.667, 0.0, 0.833, 1.944, 0.833, 5.278, 2.5, 0.0], "p": [0.7, 0.2714, 0.0286, 0.0], "dens": 16.67}, {"n": 31, "title": "Borderline", "artist": "Tame Impala", "voice": "Pic", "section": "Back to dialogue", "scored": true, "type": "Lyrics", "words": 339, "register": "Wound", "target": "Self", "op": null, "opLabel": null, "lang": null, "s": [1.18, 1.77, 1.18, 0.0, 0.0, 0.0, 3.54, 4.13, 0.59, 6.195, 0.0, 0.0, 0.0, 0.59], "p": [0.8333, 0.0333, 0.1, 0.0333], "dens": 19.17}, {"n": 32, "title": "Dreams (Remastered 2026)", "artist": "The Cranberries", "voice": "A", "section": "Back to dialogue", "scored": true, "type": "Lyrics", "words": 163, "register": "Tenderness", "target": "You", "op": null, "opLabel": null, "lang": null, "s": [1.227, 1.227, 0.0, 0.0, 0.0, 0.0, 1.227, 0.0, 0.0, 0.0, 1.227, 0.0, 0.0, 0.0], "p": [0.6538, 0.3077, 0.0, 0.0385], "dens": 4.91}, {"n": 33, "title": "The Less I Know The Better", "artist": "Tame Impala", "voice": "A", "section": "Back to dialogue", "scored": true, "type": "Lyrics", "words": 229, "register": "Wound", "target": "You", "op": null, "opLabel": null, "lang": null, "s": [6.114, 5.24, 0.0, 0.0, 0.0, 1.31, 4.367, 0.0, 2.183, 1.31, 6.114, 0.0, 0.0, 0.0], "p": [0.4565, 0.4565, 0.0435, 0.0435], "dens": 26.64}, {"n": 34, "title": "Work", "artist": "Charlotte Day Wilson", "voice": "Pic", "section": "Back to dialogue", "scored": true, "type": "Lyrics", "words": 81, "register": "Pact", "target": "Us", "op": null, "opLabel": null, "lang": null, "s": [0.0, 0.0, 0.0, 0.0, 0.0, 2.469, 1.235, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "p": [0.7143, 0.2857, 0.0, 0.0], "dens": 3.7}, {"n": 35, "title": "Wassup", "artist": "A$AP Rocky", "voice": "Pic", "section": "Back to dialogue", "scored": true, "type": "Lyrics", "words": 205, "register": "Defiance", "target": "Us", "op": null, "opLabel": null, "lang": null, "s": [2.927, 6.829, 0.0, 0.0, 0.0, 0.976, 0.0, 8.78, 0.976, 0.0, 2.439, 0.0, 0.0, 0.0], "p": [0.5909, 0.0909, 0.2273, 0.0909], "dens": 22.93}, {"n": 36, "title": "505", "artist": "Arctic Monkeys", "voice": "A", "section": "Sacred sanctuary", "scored": true, "type": "Lyrics", "words": 226, "register": "Tenderness", "target": "You", "op": null, "opLabel": null, "lang": null, "s": [2.212, 0.0, 0.0, 0.0, 0.0, 0.0, 1.327, 0.0, 0.442, 0.0, 5.752, 1.77, 0.0, 0.0], "p": [0.4722, 0.5278, 0.0, 0.0], "dens": 11.5}, {"n": 37, "title": "Sanctuary", "artist": "Joji", "voice": "A", "section": "Sacred sanctuary", "scored": true, "type": "Lyrics", "words": 189, "register": "Pact", "target": "Us", "op": null, "opLabel": null, "lang": null, "s": [0.0, 0.529, 0.0, 9.524, 0.0, 0.0, 3.175, 0.0, 3.175, 3.704, 6.349, 1.058, 0.0, 1.058], "p": [0.5161, 0.4516, 0.0323, 0.0], "dens": 28.57}, {"n": 38, "title": "Movie", "artist": "Tom Misch", "voice": "A", "section": "Sacred sanctuary", "scored": true, "type": "Lyrics", "words": 385, "register": "Wound", "target": "You", "op": null, "opLabel": null, "lang": null, "s": [1.818, 1.818, 0.519, 0.0, 0.0, 0.0, 0.0, 0.0, 1.818, 0.0, 11.429, 0.0, 0.0, 9.87], "p": [0.6032, 0.3492, 0.0317, 0.0159], "dens": 27.27}, {"n": 39, "title": "I Follow Rivers (The Magician Remix)", "artist": "Lykke Li, The Magician", "voice": "Pic", "section": "Sacred sanctuary", "scored": true, "type": "Lyrics", "words": 91, "register": "Tenderness", "target": "You", "op": null, "opLabel": null, "lang": null, "s": [0.0, 0.0, 2.198, 0.0, 0.0, 0.0, 0.0, 4.396, 0.0, 25.275, 3.297, 0.0, 0.0, 0.0], "p": [0.6667, 0.3333, 0.0, 0.0], "dens": 35.16}], "sections": [{"name": "Alone", "f": 1, "t": 9, "n": 9, "scored": 8, "density": 13.7, "pron": {"I": 0.6630474627399218, "you": 0.176785343787709, "we": 0.056678024119237794, "they": 0.10348916935313138}, "con_data": {"Persona": 1.0818562660045297, "Shadow": 1.0615327397222858, "Self": 0.36839965360734034}, "con_theory": {"Persona": 1.0818562660045297, "Shadow": 1.0719632899029554, "Anima": 0.2410189726819127, "Self": 0.42165944388938437}, "lead_data": "Persona", "lead_theory": "Persona"}, {"name": "The pact", "f": 10, "t": 12, "n": 3, "scored": 2, "density": 31.8, "pron": {"I": 0.7300420168067228, "you": 0.20483193277310924, "we": 0.057773109243697475, "they": 0.007352941176470588}, "con_data": {"Persona": 1.131171451928387, "Shadow": 2.7819768714497526, "Self": 0.867493998074458}, "con_theory": {"Persona": 1.131171451928387, "Shadow": 1.2029595676602534, "Anima": 4.689701458889989, "Self": 0.5354075714561921}, "lead_data": "Shadow", "lead_theory": "Anima"}, {"name": "Integration", "f": 13, "t": 17, "n": 5, "scored": 5, "density": 26.5, "pron": {"I": 0.5773246783851238, "you": 0.38121404929464314, "we": 0.029845110704071465, "they": 0.011616161616161615}, "con_data": {"Persona": 1.1168780446895272, "Shadow": 0.6149110142905135, "Self": 2.0310406317446734}, "con_theory": {"Persona": 1.1168780446895272, "Shadow": 1.093381452640091, "Anima": 0.5139983052624422, "Self": 2.3110913566362115}, "lead_data": "Self", "lead_theory": "Self"}, {"name": "Techno break", "f": 18, "t": 22, "n": 5, "scored": 1, "density": 23.8, "pron": {"I": 0.39999999999999997, "you": 0.6, "we": 0.0, "they": 0.0}, "con_data": {"Persona": 2.327090952347995, "Shadow": 0.0, "Self": 0.8462361541662684}, "con_theory": {"Persona": 2.327090952347995, "Shadow": 0.0, "Anima": 0.0, "Self": 1.2693542312494026}, "lead_data": "Persona", "lead_theory": "Persona"}, {"name": "Counter magic", "f": 23, "t": 25, "n": 3, "scored": 3, "density": 19.7, "pron": {"I": 0.7431141439205956, "you": 0.1072511717673008, "we": 0.03397435897435897, "they": 0.11566032533774469}, "con_data": {"Persona": 1.2996269434326522, "Shadow": 0.7182518760075581, "Self": 1.011875660573082}, "con_theory": {"Persona": 1.2996269434326522, "Shadow": 0.883413922548771, "Anima": 0.34821703389701564, "Self": 1.1785429273699022}, "lead_data": "Persona", "lead_theory": "Persona"}, {"name": "Wordless response", "f": 26, "t": 26, "n": 1, "scored": 0, "density": null, "pron": null, "con_data": null, "con_theory": null, "lead_data": null, "lead_theory": null}, {"name": "Back to dialogue", "f": 27, "t": 35, "n": 9, "scored": 9, "density": 18.8, "pron": {"I": 0.6202637559925455, "you": 0.27238947581205436, "we": 0.05790363555953558, "they": 0.049443132635864626}, "con_data": {"Persona": 0.7112473447215675, "Shadow": 0.8520437729448579, "Self": 0.9577392501716394}, "con_theory": {"Persona": 0.7112473447215675, "Shadow": 0.866720715675508, "Anima": 1.1102141317259462, "Self": 0.8668248666638358}, "lead_data": "Self", "lead_theory": "Anima"}, {"name": "Sacred sanctuary", "f": 36, "t": 39, "n": 4, "scored": 4, "density": 25.6, "pron": {"I": 0.5645481310803891, "you": 0.4154825908858166, "we": 0.016001024065540194, "they": 0.003968253968253968}, "con_data": {"Persona": 0.7178047148798238, "Shadow": 1.2615199208358114, "Self": 1.165273807209681}, "con_theory": {"Persona": 0.7178047148798238, "Shadow": 1.2751847683823776, "Anima": 1.771468871806986, "Self": 0.8485114273644625}, "lead_data": "Shadow", "lead_theory": "Anima"}], "con_data": {"Persona": ["Speech and silence", "Power and victory", "Circus and play"], "Shadow": ["Devil and the sacred", "Death and the dead", "Loyalty and trust", "Highs and substances"], "Self": ["Sight and mirrors", "Shelter and care", "Animals and beasts", "Water, sky and night", "Return and repetition", "The self and its doubles"]}, "con_theory": {"Persona": ["Speech and silence", "Power and victory", "Circus and play"], "Shadow": ["Devil and the sacred", "Death and the dead", "Animals and beasts", "Highs and substances"], "Anima": ["Loyalty and trust", "Water, sky and night"], "Self": ["Sight and mirrors", "Shelter and care", "The self and its doubles", "Return and repetition"]}, "ramp": [7, 10, 34, 9, 29, 30, 31, 3, 32, 13, 36, 39, 37, 8, 27, 5, 4, 14, 25, 2, 23, 1, 35, 24, 17, 38, 16, 11, 33, 15, 21, 28], "shuffle": {"data": {"each": [0.5032, 0.4864, 0.5032, 0.4333, 0.4917], "all5": 0.0379, "mean_n": 2.4178, "ge4": 0.2138, "dist": [783, 1721, 2548, 2810, 1759, 379]}, "theory": {"each": [0.5231, 0.4759, 0.4849, 0.4596, 0.4917], "all5": 0.0368, "mean_n": 2.4352, "ge4": 0.2185, "dist": [699, 1728, 2648, 2740, 1817, 368]}}, "autoplay": {"data": {"each": [0.65625, 0.46875, 0.78125, 0.65625, 0.4375], "all5": 0.21875, "n_all5": 7, "mean_n": 3.0, "dist": [1, 7, 5, 4, 8, 7], "seeds_all5": [2, 4, 23, 27, 30, 35, 36], "ftcu": [true, false, true, true, false]}, "theory": {"each": [0.4375, 0.125, 0.8125, 0.28125, 0.4375], "all5": 0.0, "n_all5": 0, "mean_n": 2.09375, "dist": [2, 8, 10, 9, 3, 0], "seeds_all5": [], "ftcu": [true, false, true, false, false]}}, "curator": {"data": [true, true, true, true, true], "theory": [true, true, false, true, true]}, "coherence": {"curator": 0.06588752685145238, "curator_z": -0.0017736603752915858, "shuffle_mean": -0.0006306364865744178, "shuffle_sd": 0.05086102121051532, "shuffle_p_ge": 0.1004899510048995, "shuffle_mean_z": -1.0641117332497796e-05, "autoplay_mean": 0.5628171981471483, "autoplay_min": 0.5419621382366062, "autoplay_mean_z": 0.3120898288175825, "ramp": 0.12766966333179486, "ramp_z": 0.17883679797671237, "adjcos": {"curator": 0.43836366609659116, "shuffle": 0.3983695342665835, "autoplay": 0.7371432743525634, "ramp": 0.47551025564654315}}, "signals": {"signals_mean": 0.09879323230452793, "signals_each": [0.15510308474564122, 0.04248337986341463], "signals_p_low": 0.010149492525373732, "signals_shuffle_median": 0.394968018888197, "others_mean": 0.5453663267479875, "others_each": [0.47336463120312877, 0.6477040589229046, 0.515030290117929], "others_p_high": 0.12644367781610918, "others_shuffle_median": 0.3947985280202281, "ordinary_mean": 0.45213800785158875, "ordinary_min": 0.07370846071967475, "ordinary_n": 26}, "you_trend": {"rho": 0.3599706744868035, "p_perm": 0.023397660233976603}}</script>
+<script>// Five checks of Jung's line, ported from research/algos_final.py. Works in node (module.exports) and the browser (window.Engine).
+(function (root) {
+  function makeEngine(DATA) {
+    const TH = DATA.themes.map((t) => t.key);
+    const TI = Object.fromEntries(TH.map((t, i) => [t, i]));
+    const scored = DATA.tracks.filter((t) => t.scored);            // 32 songs, playlist order
+    const MU = TH.map((_, j) => scored.reduce((a, t) => a + t.s[j], 0) / scored.length);
+    const Q = 8;
+    const byN = Object.fromEntries(scored.map((t) => [t.n, t]));
+
+    function composite(order, groups) {
+      const out = {};
+      for (const [k, members] of Object.entries(groups)) {
+        out[k] = order.map((n) => { const s = byN[n].s; return members.reduce((a, m) => a + s[TI[m]] / MU[TI[m]], 0) / members.length; });
+      }
+      return out;
+    }
+    function rolling(v, w = 8) {
+      const h1 = Math.floor(w / 2), h2 = w - h1;
+      return v.map((_, i) => { const seg = v.slice(Math.max(0, i - h1), i + h2); return seg.reduce((a, b) => a + b, 0) / seg.length; });
+    }
+    const mean = (a) => a.reduce((x, y) => x + y, 0) / a.length;
+    const argmax = (a) => a.reduce((bi, x, i) => (x > a[bi] ? i : bi), 0);
+
+    function evaluate(order, groups) {
+      const comp = composite(order, groups);
+      const roll = Object.fromEntries(Object.entries(comp).map(([k, v]) => [k, rolling(v)]));
+      const per = comp.Persona, sel = comp.Self, rs = roll.Shadow, rself = roll.Self;
+      const n = order.length;
+      const c1 = mean(per.slice(0, Q)) > mean(sel.slice(0, Q));
+      const ps = argmax(rs), pself = argmax(rself);
+      const c2 = ps < pself;
+      const c3 = mean(sel.slice(n - Q)) > mean(per.slice(n - Q));
+      let c4 = false, dipAt = null, backAt = null;
+      const before = rs.slice(0, pself), after = rs.slice(pself);
+      if (before.length && Math.max(...before) > 1 && after.some((x) => x < 1)) {
+        const dip = after.findIndex((x) => x < 1);
+        const back = after.slice(dip).findIndex((x) => x > 1);
+        c4 = back >= 0; dipAt = order[pself + dip]; backAt = back >= 0 ? order[pself + dip + back] : null;
+      }
+      const you = order.map((k) => byN[k].p[1]);
+      const youFirst = mean(you.slice(0, Q)), youLast = mean(you.slice(n - Q));
+      const c5 = youLast > youFirst;
+      return {
+        pass: [c1, c2, c3, c4, c5], comp, roll,
+        detail: {
+          personaFirst: mean(per.slice(0, Q)), selfFirst: mean(sel.slice(0, Q)),
+          shadowPeak: order[ps], selfPeak: order[pself],
+          selfLast: mean(sel.slice(n - Q)), personaLast: mean(per.slice(n - Q)),
+          dipAt, backAt, youFirst, youLast,
+        },
+      };
+    }
+    // autoplay: greedy most-similar next song (cosine of the 14-theme vectors)
+    const unit = Object.fromEntries(scored.map((t) => { const nr = Math.hypot(...t.s); return [t.n, t.s.map((x) => x / nr)]; }));
+    const cosine = (a, b) => unit[a].reduce((acc, x, i) => acc + x * unit[b][i], 0);
+    function autoplay(seed) {
+      const order = [seed]; const left = new Set(scored.map((t) => t.n)); left.delete(seed);
+      while (left.size) {
+        const cur = order[order.length - 1]; let best = null, bv = -Infinity;
+        for (const j of left) { const v = cosine(cur, j); if (v > bv) { bv = v; best = j; } }
+        order.push(best); left.delete(best);
+      }
+      return order;
+    }
+    function shuffle(rand = Math.random) {
+      const a = scored.map((t) => t.n);
+      for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+      return a;
+    }
+    function coherence(order) {
+      const Y = order.map((n) => unit[n]); const m = Y.length;
+      let adj = 0; for (let i = 1; i < m; i++) adj += Y[i].reduce((a, x, k) => a + (x - Y[i - 1][k]) ** 2, 0);
+      let all = 0; for (let i = 0; i < m; i++) for (let j = i + 1; j < m; j++) all += Y[i].reduce((a, x, k) => a + (x - Y[j][k]) ** 2, 0);
+      return 1 - (m / 2) * adj / all;
+    }
+    return { TH, MU, scored, curatorOrder: scored.map((t) => t.n), evaluate, autoplay, shuffle, coherence, rolling };
+  }
+  if (typeof module !== "undefined") module.exports = makeEngine; else root.makeEngine = makeEngine;
+})(typeof window !== "undefined" ? window : globalThis);
+</script>
+<script>
+(function () {
+  "use strict";
+  const D = JSON.parse(document.getElementById("data").textContent);
+  const E = makeEngine(D);
+  const TR = D.tracks;
+  const byN = Object.fromEntries(TR.map((t) => [t.n, t]));
+  const SECS = D.sections;
+  const secIdx = (n) => SECS.findIndex((s) => n >= s.f && n <= s.t);
+  const TH = D.themes;
+  const THI = Object.fromEntries(TH.map((t, i) => [t.key, i]));
+  const ADDR = {
+    Them: { cls: "them", label: "them", letter: "T", long: "speaks to “them”: rivals, enemies, the devil" },
+    You: { cls: "you", label: "you", letter: "Y", long: "speaks to “you”, someone close" },
+    Us: { cls: "us", label: "us", letter: "U", long: "speaks for “us”" },
+    Self: { cls: "self", label: "the self", letter: "S", long: "speaks to the self" },
+    "No words": { cls: "none", label: "no words", letter: "–", long: "has no words to address anyone" },
+  };
+  const ADDR_ORDER = ["Them", "You", "Us", "Self", "No words"];
+  const FIGC = { Persona: "var(--you)", Shadow: "var(--them)", Self: "var(--us)", Anima: "var(--self)" };
+  const FIGNAME = { Persona: "Persona", Shadow: "Shadow", Anima: "Anima", Self: "Self" };
+  const FIGPLAIN = { Persona: "the mask", Shadow: "the shadow", Anima: "the soul-guide", Self: "the Self" };
+  const REG = { Attack: "attack", Defiance: "defiance", Refuge: "refuge", Wound: "a wound", Pact: "a pact", Tenderness: "tenderness", Pulse: "pulse, sound over words" };
+  const ACTS = {
+    6: "A signal. A devilish sign placed inside the first lesson, read from its title and sound.",
+    12: "A signal. A spoken warning in Arabic that works like a label on a product: what follows is not for children.",
+    18: "Title only. Hard techno whose title casts a spell with a magic word.",
+    19: "Title only. The title gives a command.",
+    20: "Title only. The title names the scent of prey. It sits at the exact centre of the playlist.",
+    22: "Instrumental. A silence that undoes the spells.",
+    26: "Instrumental. The double, answering without words.",
+  };
+  const el = (tag, attrs = {}, ...kids) => {
+    const e = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (v == null) continue;
+      if (k === "class") e.className = v; else if (k === "style") e.style.cssText = v; else if (k === "text") e.textContent = v;
+      else if (k.startsWith("on")) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v);
+    }
+    for (const k of kids) if (k != null) e.append(k instanceof Node ? k : document.createTextNode(String(k)));
+    return e;
+  };
+  const shortTitle = (t) => t.replace(/\s*\((feat\.|with )[^)]*\)/i, "").replace(/\s*\([^)]*(Remix|Remastered)[^)]*\)/i, "").trim();
+  const fmt = (x, d = 2) => (x == null || isNaN(x) ? "–" : x.toFixed(d));
+  const pct = (x) => Math.round(x * 100) + "%";
+  const NS = "http://www.w3.org/2000/svg";
+  const svgEl = (tag, attrs = {}) => { const e = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); return e; };
+
+  // ---------------- tooltip
+  const tip = document.getElementById("tip");
+  function showTip(x, y, build) {
+    tip.replaceChildren(); build(tip); tip.hidden = false;
+    const r = tip.getBoundingClientRect(); const vw = document.documentElement.clientWidth;
+    let left = x + 14, top = y + 14;
+    if (left + r.width > vw - 8) left = x - r.width - 14;
+    if (top + r.height > window.innerHeight - 8) top = y - r.height - 14;
+    tip.style.left = Math.max(8, left) + "px"; tip.style.top = Math.max(8, top) + "px";
+  }
+  const hideTip = () => { tip.hidden = true; };
+  const tipRow = (color, value, label, dashed) => { const r = el("div", { class: "tr" }); const i = el("i", { style: `--c:${color}` }); if (dashed) i.style.background = `repeating-linear-gradient(90deg, ${color} 0 4px, transparent 4px 6px)`; r.append(i, el("b", { text: value }), el("span", { text: label })); return r; };
+
+  // ---------------- legends
+  function addrLegend(node) {
+    node.replaceChildren(...ADDR_ORDER.map((k) => el("span", {}, el("i", { style: `--c:var(--${ADDR[k].cls})`, class: k === "No words" ? "act" : "" }), `${ADDR[k].letter} · ${ADDR[k].label}`)));
+  }
+  addrLegend(document.getElementById("addrLegend1"));
+  addrLegend(document.getElementById("addrLegend2"));
+
+  // ---------------- hero course line
+  const clRow = document.getElementById("clRow"), clLabels = document.getElementById("clLabels");
+  SECS.forEach((s, i) => {
+    const n = s.t - s.f + 1;
+    const g = el("div", { class: "cl-sec", style: `--n:${n}` });
+    for (let k = s.f; k <= s.t; k++) {
+      const t = byN[k]; const a = ADDR[t.target];
+      const b = el("button", { type: "button", class: "cl-bar" + (t.scored ? "" : " act"), style: `--c:var(--${a.cls})`, "aria-label": `Song ${k}, ${t.title}, ${a.long}` });
+      b.addEventListener("click", () => { selectSong(k); document.getElementById("m3").scrollIntoView(); });
+      b.addEventListener("pointermove", (ev) => showTip(ev.clientX, ev.clientY, (T) => { T.append(el("div", { class: "tt", text: `${k} · ${t.title}` }), el("div", { class: "tm", text: `Lesson ${i + 1}, ${s.name} · ${a.label}` })); }));
+      b.addEventListener("pointerleave", hideTip);
+      g.append(b);
+    }
+    clRow.append(g);
+    const SHORTSEC = ["Alone", "The pact", "Integration", "Techno", "Counter", "", "Back to dialogue", "Sanctuary"];
+    clLabels.append(el("span", { style: `--n:${n}`, title: s.name, text: SHORTSEC[i] ? `${i + 1} ${SHORTSEC[i]}` : String(i + 1) }));
+  });
+
+  // ---------------- Jung's four figures (module 1)
+  const FIG4 = [
+    ["Persona", "the mask", "The persona is the mask we wear to meet the world: a role, a voice, a way of winning. Jung did not see it as false, only as partial. It protects us, but it can be mistaken for the whole person.", ["Speech and silence", "Power and victory", "Circus and play"]],
+    ["Shadow", "the disowned side", "The shadow holds what we refuse to see in ourselves. Jung observed that it is usually met first outside, projected onto an enemy or a rival. Meeting it, and taking it back, is in his view the first step of the inner path.", ["Devil and the sacred", "Death and the dead", "Highs and substances", "Animals and beasts"]],
+    ["Anima", "the soul-guide", "The anima is the inner figure of the soul, often pictured as a guide who leads toward the unconscious, through night and water. Jung described it in men; later Jungians such as James Hillman read it as a soul-image open to anyone.", ["Loyalty and trust", "Water, sky and night"]],
+    ["Self", "wholeness", "The Self is the centre and the whole of the psyche, larger than the conscious ego. Jung’s images for it are circles, mandalas and the sacred. It is never owned, only approached, which is why he spoke of circling it.", ["Sight and mirrors", "Shelter and care", "The self and its doubles", "Return and repetition"]],
+  ];
+  const lbl = (k) => TH[THI[k]].label;
+  document.getElementById("fig4").replaceChildren(...FIG4.map(([k, plain, txt, th]) => el("div", { class: "panel" },
+    el("div", { class: "key" + (k === "Anima" ? " dashed" : ""), style: `--c:${FIGC[k]}` }),
+    el("div", { class: "nm" }, el("b", { text: k }), el("span", { text: plain })),
+    el("p", { text: txt }), el("div", { class: "th", text: "In the lyrics: " + th.map((x) => lbl(x).toLowerCase()).join(", ") + "." }))));
+
+
+  // ---------------- module 2: Spotify characters
+  const CHARS = [
+    { n: "Vampire", d: "Drawn to moody, emotional and atmospheric music more than most listeners.", t: "mood", g: "what you play",
+      miss: "That the darkness in I win is staged, then answered. The course ends in a sanctuary, not in the mood it starts with." },
+    { n: "Luminary", d: "Favours cheerful, energetic music more than the average listener.", t: "mood", g: "what you play",
+      miss: "That energy can carry spells rather than joy. The hardest techno sits at the centre of the course, in the lesson on magic." },
+    { n: "Cyclops", d: "Devoted to one genre and stays with one musical style.", t: "genre range", g: "what you play",
+      miss: "That I win moves from rap to hard techno and back to tender pop on purpose, and sings in English, French and Italian." },
+    { n: "Mastermind", d: "Samples many genres instead of sticking to a few.", t: "genre range", g: "what you play",
+      miss: "Why the genres change where they do. The changes in I win fall on the thresholds of the course." },
+    { n: "Fanatic", d: "Loyal to a top artist who makes up over a third of their listening.", t: "artists", g: "what you play",
+      miss: "That no single artist leads I win. The order leads." },
+    { n: "Shapeshifter", d: "Moves quickly between artists, from one obsession to the next.", t: "artists over time", g: "how you play",
+      miss: "Whether a shift is a passing mood or a planned turn in a story." },
+    { n: "Time Traveller", d: "Keeps returning to the same favourite tracks.", t: "replays", g: "how you play", key: "A habit for Spotify, a theme in the lyrics",
+      miss: "Return and repetition is the largest theme in the lyrics of I win. Spotify counts replays; it never sees songs about coming back." },
+    { n: "Hunter", d: "Always searching for new music, and skips tracks more than others.", t: "discovery and skips", g: "how you play",
+      miss: "The songs that were kept after the search, and the place each one was given." },
+    { n: "Hypnotist", d: "Plays albums straight through, from start to finish.", t: "albums in order", g: "how you play",
+      miss: "An order the listener writes herself. The Hypnotist follows the artist’s sequence, not her own." },
+    { n: "Roboticist", d: "Lets automatic recommendations choose the songs, one after another.", t: "the algorithm", g: "how you play", key: "Tested in Module 8 as autoplay",
+      miss: "This is the opposite of curation. Module 8 tests its logic, autoplay, on the same songs." },
+    { n: "Alchemist", d: "Creates their own playlists more often than other listeners.", t: "playlists made", g: "what you make", key: "The curator’s role",
+      miss: "Spotify counts how many playlists you make. It does not read what they say, in which order, or to whom." },
+    { n: "Collector", d: "Mostly plays playlists they built themselves, and finds them flawless.", t: "own playlists played", g: "what you make",
+      miss: "Why a playlist feels flawless to its maker. This course tries to show that from the inside." },
+  ];
+  let charSel = "Alchemist", charGroup = "all";
+  function renderChars() {
+    const f = document.getElementById("charFilter");
+    f.replaceChildren(...[["all", "All twelve"], ["what you play", "What you play"], ["how you play", "How you play"], ["what you make", "What you make"]].map(([k, lab]) => {
+      const b = el("button", { type: "button", "aria-pressed": String(k === charGroup), text: lab }); b.addEventListener("click", () => { charGroup = k; renderChars(); }); return b; }));
+    const box = document.getElementById("chars");
+    box.replaceChildren(...CHARS.map((c) => {
+      const b = el("button", { type: "button", class: "char" + (c.key ? " key" : "") + (charGroup !== "all" && c.g !== charGroup ? " dim" : ""), "aria-pressed": String(c.n === charSel) },
+        el("span", { class: "cn2", text: c.n }), c.key ? el("span", { class: "badge", text: c.key }) : null, el("span", { class: "cd2", text: c.d }), el("span", { class: "ct", text: "reads " + c.t }));
+      b.addEventListener("click", () => { charSel = c.n; renderChars(); });
+      return b;
+    }));
+    const c = CHARS.find((x) => x.n === charSel);
+    document.getElementById("charDetail").replaceChildren(
+      el("div", {}, el("h4", { text: `The ${c.n} reads` }), el("p", { text: `${c.d} Spotify computes it from ${c.t}.` })),
+      el("div", {}, el("h4", { text: "What it would miss in I win" }), el("p", { text: c.miss })));
+  }
+  renderChars();
+
+  // ---------------- module 2: timeline
+  const TL = [
+    ["1970s", "therapy", "Helen Bonny", "Sequenced programmes of classical music for guided imagery in therapy."],
+    ["1994", "therapy", "Margareta Wärja", "Individuation as a spiralling path in Jungian music psychotherapy."],
+    ["2000", "meaning", "Tia DeNora", "Music as a technology of self: listeners as disc jockeys to themselves."],
+    ["2003", "profiles", "Rentfrow and Gosling", "Four dimensions of music preference and their links to personality."],
+    ["2006", "craft", "Cunningham, Bainbridge and Falconer", "How playlists and mixes are built and ordered: more of an art than a science."],
+    ["2007", "craft", "Rob Sheffield", "A memoir told through mix tapes: a song takes its meaning from its neighbours."],
+    ["2014", "machines", "Bonnin and Jannach", "A survey of automatic playlist generation, built on similarity and smooth transitions."],
+    ["2018", "machines", "Robert Prey", "Algorithmic individuation: the platform builds a statistical you."],
+    ["2019", "machines", "Nick Seaver", "Recommender systems designed as traps for attention."],
+    ["2019", "meaning", "Onur Sesigür", "Curation as context creation; identity is not an algorithm of preferences."],
+    ["2020", "machines", "Anderson and colleagues", "Listening driven by recommendations is less varied than self-organised listening."],
+    ["2023", "profiles", "Spotify", "Twelve listening characters in “Me in 2023”; daylist renames your day by mood."],
+    ["2025", "machines", "Schweiger, Parada-Cabaleiro and Schedl", "Coherence measured across 650,000 user playlists."],
+    ["2025", "profiles", "Spotify", "Wrapped adds a Listening Age and Clubs with roles."],
+    ["2026", "order", "This course", "One playlist’s order read as a path of the soul, and tested against chance and machines."],
+  ];
+  let tlTag = "all";
+  function renderTL() {
+    const f = document.getElementById("tlFilter");
+    f.replaceChildren(...["all", "meaning", "craft", "therapy", "machines", "profiles"].map((k) => {
+      const b = el("button", { type: "button", "aria-pressed": String(k === tlTag), text: k === "all" ? "Everything" : k[0].toUpperCase() + k.slice(1) });
+      b.addEventListener("click", () => { tlTag = k; renderTL(); }); return b; }));
+    document.getElementById("timeline").replaceChildren(...TL.filter((r) => tlTag === "all" || r[1] === tlTag || r[1] === "order").map(([y, tag, who, what]) =>
+      el("li", { class: tag === "order" ? "me" : "" }, el("span", { class: "yr", text: y }), el("span", { class: "tag" }, el("i", {}), tag), el("span", { class: "who" }, el("b", { text: who + ". " }), what))));
+  }
+  renderTL();
+
+  // ---------------- module 3: strip + song card
+  let selected = 12;
+  const stripNode = document.getElementById("strip"), voiceToggle = document.getElementById("voiceToggle");
+  function tile(t, extraCls = "") {
+    const a = ADDR[t.target];
+    const b = el("button", { type: "button", class: `tile ${a.cls}${t.scored ? "" : " act"}${extraCls}`, style: `--c:var(--${a.cls})`, "aria-label": `Song ${t.n}, ${t.title}, ${a.long}`, text: a.letter });
+    b.dataset.n = t.n;
+    b.addEventListener("click", () => selectSong(t.n));
+    b.addEventListener("pointermove", (ev) => showTip(ev.clientX, ev.clientY, (T) => T.append(el("div", { class: "tt", text: `${t.n} · ${t.title}` }), el("div", { class: "tm", text: `${t.artist} · ${a.label}` }))));
+    b.addEventListener("pointerleave", hideTip);
+    return b;
+  }
+  function renderStrip() {
+    const voices = voiceToggle.checked;
+    const secs = el("div", { class: "strip-secs" });
+    SECS.forEach((s, i) => {
+      const n = s.t - s.f + 1; const col = el("div", { class: "strip-sec", style: `--n:${n}` });
+      col.append(el("div", { class: "lab", title: s.name }, el("b", { text: String(i + 1) }), n > 1 ? s.name : ""));
+      const lanes = el("div", { class: "lanes" });
+      const rows = voices ? ["A", "Pic"] : [null];
+      for (const v of rows) {
+        const lane = el("div", { class: "lane" });
+        for (let k = s.f; k <= s.t; k++) { const t = byN[k]; if (!v || t.voice === v) lane.append(tile(t)); else lane.append(el("span", { class: "tile ghost", "aria-hidden": "true" })); }
+        lanes.append(lane);
+      }
+      col.append(lanes);
+      const nums = el("div", { class: "nums" }); for (let k = s.f; k <= s.t; k++) nums.append(el("span", { text: String(k) }));
+      col.append(nums);
+      secs.append(col);
+    });
+    const kids = [secs];
+    if (voices) kids.unshift(el("div", { class: "lane-name", text: "Upper lane: A · lower lane: Pic" }));
+    stripNode.replaceChildren(...kids);
+    markSel();
+  }
+  function markSel() { stripNode.querySelectorAll(".tile").forEach((b) => b.classList.toggle("sel", +b.dataset.n === selected)); }
+  function selectSong(n) { selected = n; markSel(); renderCard(); }
+  voiceToggle.addEventListener("change", () => { renderStrip(); renderCard(); });
+  function renderCard() {
+    const t = byN[selected]; const a = ADDR[t.target]; const si = secIdx(t.n); const s = SECS[si];
+    const left = el("div", { style: "display:grid;gap:10px;align-content:start" },
+      el("div", { class: "eyebrow", text: `Song ${t.n} of 39 · Lesson ${si + 1}, ${s.name}` }),
+      el("div", { class: "t1", text: t.title }), el("div", { class: "by", text: t.artist }));
+    const dl = el("dl");
+    const add = (k, v) => { dl.append(el("dt", { text: k }), el("dd", {}, v)); };
+    add("Speaks to", el("span", { class: "chip" }, el("i", { style: `--c:var(--${a.cls})` }), a.label));
+    add("Mood", REG[t.register] || t.register);
+    if (voiceToggle.checked) add("Voice", t.voice);
+    if (t.opLabel) add("In the counter-magic", `${t.op}: ${t.opLabel}`);
+    if (t.lang) add("Words", t.lang);
+    add("Lyrics", t.scored ? `${t.words} words, scored` : `${t.words || "no"} words, read as an act`);
+    left.append(dl);
+    const right = el("div", { style: "display:grid;gap:10px;align-content:start" });
+    if (!t.scored) {
+      right.append(el("h3", { text: "Why it is an act" }), el("p", { style: "font-size:15px;color:var(--ink-2)", text: ACTS[t.n] || "Too few words to score." }));
+    } else {
+      const top = t.s.map((v, j) => [v, j]).filter((x) => x[0] > 0).sort((x, y) => y[0] - x[0]).slice(0, 4);
+      const max = Math.max(8, ...top.map((x) => x[0]));
+      const mini = el("div", { class: "mini" });
+      top.forEach(([v, j]) => mini.append(el("div", { class: "row" }, el("span", { text: TH[j].label }), el("div", {}, el("div", { class: "bar", style: `width:${(v / max) * 100}%` })), el("span", { class: "v", text: fmt(v, 1) }))));
+      right.append(el("h3", { text: "Its strongest themes" }), mini,
+        el("p", { style: "font-size:12.5px;color:var(--muted)", text: "Weighted theme words per 100 words." }));
+      const pr = ["I", "you", "we", "they"].map((p, k) => `${p} ${pct(t.p[k])}`).join(" · ");
+      right.append(el("h3", { text: "Pronouns" }), el("p", { class: "num", style: "font-size:13.5px", text: pr }));
+    }
+    document.getElementById("songCard").replaceChildren(el("div", { class: "songcard" }, left, right));
+  }
+  renderStrip(); renderCard();
+
+  // address by lesson
+  const abl = document.getElementById("abl");
+  SECS.forEach((s, i) => {
+    const counts = Object.fromEntries(ADDR_ORDER.map((k) => [k, 0]));
+    for (let k = s.f; k <= s.t; k++) counts[byN[k].target]++;
+    const n = s.t - s.f + 1; const bar = el("div", { class: "bar" });
+    ADDR_ORDER.forEach((k) => {
+      if (!counts[k]) return;
+      const seg = el("div", { class: `seg2 ${ADDR[k].cls}${k === "No words" ? " act" : ""}`, style: `--c:var(--${ADDR[k].cls});flex:${counts[k]}`, text: String(counts[k]), tabindex: "0", "aria-label": `${s.name}: ${counts[k]} of ${n} songs, ${ADDR[k].label}` });
+      const tipf = (x, y) => showTip(x, y, (T) => T.append(el("div", { class: "tt", text: `${counts[k]} of ${n} songs` }), el("div", { class: "tm", text: `Lesson ${i + 1}, ${s.name} · ${ADDR[k].label}` })));
+      seg.addEventListener("pointermove", (ev) => tipf(ev.clientX, ev.clientY));
+      seg.addEventListener("pointerleave", hideTip);
+      seg.addEventListener("focus", () => { const r = seg.getBoundingClientRect(); tipf(r.right, r.top); });
+      seg.addEventListener("blur", hideTip);
+      bar.append(seg);
+    });
+    abl.append(el("div", { class: "row" }, el("span", { class: "nm" }, el("b", { text: String(i + 1) }), s.name), bar, el("span", { class: "n", text: String(n) })));
+  });
+
+  // ---------------- module 3: lesson viewer
+  const LESSONS = [
+    { term: 1, title: "Name the enemy", happens: "Nine songs of attack and defiance, all aimed at “them”: rivals, haters, the devil. A devilish signal sits in the middle of the lesson (song 6).",
+      jung: "The mask and the shadow lead together. The soul shows a hard face and sees its own darkness outside, in an enemy. Jung called this projection.",
+      ev: ["All 9 songs speak to “them”.", "Theme density is 13.7 words per 100, the lowest of the course. The vocabulary is thin while the soul is alone.", "The soul-guide (0.24) and the Self (0.42) are almost absent."] },
+    { term: 1, title: "Make a bond", happens: "A promise of loyalty (LOYALTY.) is answered with night and intoxication (Day ’N’ Nite). Then a spoken warning in Arabic (song 12) works like a label on a product. What follows is not for children.",
+      jung: "The soul-guide leads, with loyalty beside night and water. A bond is offered, and it is answered in other words.",
+      ev: ["Theme density more than doubles, to 31.8.", "The soul-guide reaches 4.7 times its average, the strongest lead of the course.", "Across the warning, the vocabulary changes more sharply than anywhere else in the playlist."] },
+    { term: 1, title: "Learn to say “you”", happens: "After the warning, the words of excess disappear and the songs start to say “you”. Care given to someone else (Butterfly’s Repose) comes back as care for oneself (i).",
+      jung: "The Self leads. This is the first glimpse of wholeness, reached early and not yet kept.",
+      ev: ["Words of highs and substances fall from 4.4 just before the warning to 0.8, then 0.", "“You” outnumbers “I” for the first time at song 15.", "The Self reaches 2.3 times its average."] },
+    { term: 2, title: "Unlearn the spell", happens: "The words drop away. Over hard techno, three titles cast spells: a magic word, a command and the scent of prey. I SMELL FEAR sits at the exact centre of the playlist. A confession in Italian (Passi) and a silence (Intro) undo them.",
+      jung: "The mask returns, this time as magic and command.",
+      ev: ["Only 1 of the 5 tracks has enough words to score.", "In that song, the mask stands at 2.3 times its average."] },
+    { term: 2, title: "Find the spell inside", happens: "A charm is met with suspicion (Lemon). Then the spell is found inside: a possession (Ma meilleure amie, in French) and a diagnosis of the ego’s power (POWER).",
+      jung: "The mask is examined from the inside. The enemy appears for one of the last times.",
+      ev: ["The mask leads, at 1.30.", "Two of the three songs speak to the self.", "Speech peaks here: Ma meilleure amie is the talkiest song of the course."] },
+    { term: 2, title: "Meet the double", happens: "An instrumental called Alter Ego answers without words.",
+      jung: "The shadow returns as a double, the other self.",
+      ev: ["No lyrics, so no scores. The meaning lies in the title and in its place, right after the diagnosis of the ego."] },
+    { term: 2, title: "Face the enemy again", happens: "The enemy returns one last time (Not Like Us). Then tenderness and conversation take over, from Safe to Work.",
+      jung: "The soul-guide leads, narrowly. The shadow, which fell away after the Self, rises again near the end of the lesson.",
+      ev: ["Only 1 of the 9 songs speaks to “them”; 7 speak to “you” or “us”.", "The soul-guide leads at 1.11; the other figures stay below average.", "With the data groups, the shadow comes back above average from song 34."] },
+    { term: 2, title: "Rest in the water", happens: "Every song now speaks to “you” or “us”. Sacred words return as angels and heaven rather than devils (Sanctuary). The last song follows the rivers into the water (I Follow Rivers).",
+      jung: "The soul-guide leads, at 1.77. Jung called water the most common image of the unconscious, the place the soul-guide leads to.",
+      ev: ["All 4 songs speak to “you” or “us”.", "“They” falls to 0.4% of the pronouns.", "I Follow Rivers alone holds 29% of all the water, sky and night words."] },
+  ];
+  let lessonI = 2;
+  const tabs = document.getElementById("lessonTabs"), lp = document.getElementById("lessonPanel");
+  function renderTabs() {
+    tabs.replaceChildren();
+    SECS.forEach((s, i) => {
+      if (i === 0) tabs.append(el("span", { class: "term", text: "Term 1" }));
+      if (i === 3) tabs.append(el("span", { class: "term", text: "Term 2" }));
+      const b = el("button", { type: "button", role: "tab", id: `tab${i}`, "aria-selected": String(i === lessonI), tabindex: i === lessonI ? "0" : "-1" }, el("b", { text: String(i + 1) }), s.name);
+      b.addEventListener("click", () => { lessonI = i; renderTabs(); renderLesson(); });
+      b.addEventListener("keydown", (ev) => { if (ev.key === "ArrowRight" || ev.key === "ArrowLeft") { lessonI = (lessonI + (ev.key === "ArrowRight" ? 1 : 7)) % 8; renderTabs(); renderLesson(); document.getElementById(`tab${lessonI}`).focus(); } });
+      tabs.append(b);
+    });
+    lp.setAttribute("aria-labelledby", `tab${lessonI}`);
+  }
+  function figBars(levels, keys) {
+    const max = Math.max(2, ...keys.map((k) => levels[k] || 0));
+    const box = el("div", { class: "figbars" });
+    keys.forEach((k) => {
+      const v = levels[k] || 0;
+      box.append(el("div", { class: "row" + (k === "Anima" ? " dash" : "") }, el("span", { text: FIGPLAIN[k] }),
+        el("div", { class: "track" }, el("div", { class: "b", style: `width:${(v / max) * 100}%;--c:${FIGC[k]}` }), el("div", { class: "avg", style: `left:${(1 / max) * 100}%` })),
+        el("span", { class: "v", text: fmt(v) })));
+    });
+    return box;
+  }
+  function renderLesson() {
+    const s = SECS[lessonI], L = LESSONS[lessonI];
+    const main = el("div", { style: "display:grid;gap:16px;align-content:start" },
+      el("div", { class: "eyebrow", text: `Term ${L.term} · Lesson ${lessonI + 1} · ${s.name} · song${s.f === s.t ? "" : "s"} ${s.f === s.t ? s.f : s.f + "–" + s.t}` }),
+      el("div", { class: "lt", text: L.title }),
+      el("div", { class: "blk" }, el("h3", { text: "What happens" }), el("p", { text: L.happens })),
+      el("div", { class: "blk" }, el("h3", { text: "In Jung’s terms" }), el("p", { text: L.jung })),
+      el("div", { class: "blk" }, el("h3", { text: "The evidence" }), el("ul", {}, ...L.ev.map((x) => el("li", { text: x })))));
+    const side = el("div", { class: "side" });
+    if (s.con_theory) {
+      side.append(el("div", { class: "blk" }, el("h3", { text: "Figure levels (1 = average)" }), figBars(s.con_theory, ["Persona", "Shadow", "Anima", "Self"])));
+    } else side.append(el("div", { class: "blk" }, el("h3", { text: "Figure levels" }), el("p", { style: "font-size:14px;color:var(--muted)", text: "No words to score in this lesson." })));
+    const list = el("div", { class: "songlist" });
+    for (let k = s.f; k <= s.t; k++) { const t = byN[k]; list.append(el("span", { class: "chip", title: ADDR[t.target].long }, el("i", { style: `--c:var(--${ADDR[t.target].cls})` }), `${k} ${shortTitle(t.title)}`)); }
+    side.append(el("div", { class: "blk" }, el("h3", { text: "The songs" }), list));
+    if (s.density != null) side.append(el("div", { class: "statrow" }, el("div", { class: "stat" }, el("b", { text: fmt(s.density, 1) }), el("span", { text: "theme words per 100" })), el("div", { class: "stat" }, el("b", { text: `${s.scored}/${s.n}` }), el("span", { text: "songs scored" }))));
+    const nav = el("div", { class: "lnav" },
+      el("button", { type: "button", class: "btn", onclick: () => { if (lessonI > 0) { lessonI--; renderTabs(); renderLesson(); } } }, "← Previous lesson"),
+      el("button", { type: "button", class: "btn", onclick: () => { if (lessonI < 7) { lessonI++; renderTabs(); renderLesson(); } } }, lessonI < 7 ? "Next lesson →" : "End of the course"));
+    if (lessonI === 0) nav.firstChild.disabled = true;
+    if (lessonI === 7) nav.lastChild.disabled = true;
+    lp.replaceChildren(el("div", { style: "display:grid;gap:18px" }, el("div", { class: "lesson" }, main, side), nav));
+  }
+  renderTabs(); renderLesson();
+
+  // ---------------- module 4: heatmap
+  let grouping = "data", selTheme = "Loyalty and trust";
+  const GROUPS = {
+    data: [["Persona", "Persona · the stage", D.con_data.Persona], ["Shadow", "Shadow · the pact", D.con_data.Shadow], ["Self", "Self · mirror and refuge", D.con_data.Self], [null, "No group · titles and acts", ["Magic"]]],
+    theory: [["Persona", "Persona · the mask", D.con_theory.Persona], ["Shadow", "Shadow · the disowned side", D.con_theory.Shadow], ["Anima", "Anima · the soul-guide", D.con_theory.Anima], ["Self", "Self · wholeness", D.con_theory.Self], [null, "No group · titles and acts", ["Magic"]]],
+  };
+  const heat = document.getElementById("heat");
+  const heatAlpha = (v) => (v <= 0 ? 0.045 : 0.14 + 0.86 * Math.min(1, Math.sqrt(v / 16)));
+  const cols = () => { const parts = ["minmax(118px, 150px)"]; SECS.forEach((s, i) => { if (i) parts.push("5px"); for (let k = s.f; k <= s.t; k++) parts.push("minmax(13px, 1fr)"); }); return parts.join(" "); };
+  function heatRow(cells) { const r = el("div", { class: "hrow", style: `grid-template-columns:${cols()}` }); cells.forEach((c) => r.append(c)); return r; }
+  function renderHeat() {
+    heat.replaceChildren();
+    const head = [el("span", {})]; SECS.forEach((s, i) => { if (i) head.push(el("span", {})); for (let k = s.f; k <= s.t; k++) head.push(el("span", { class: "hn", text: String(k) })); });
+    heat.append(heatRow(head));
+    for (const [fig, name, members] of GROUPS[grouping]) {
+      const gi = el("i", { style: `--c:${fig ? FIGC[fig] : "var(--muted)"}`, class: fig === "Anima" ? "dash" : "" });
+      heat.append(el("div", { class: "grp" }, gi, name));
+      for (const key of members) {
+        const j = THI[key], th = TH[j];
+        const cells = [el("button", { type: "button", class: "rl", text: th.label, "aria-pressed": String(key === selTheme), onclick: () => { selTheme = key; renderHeat(); renderThemeCard(); } })];
+        SECS.forEach((s, i) => {
+          if (i) cells.push(el("span", {}));
+          for (let k = s.f; k <= s.t; k++) {
+            const t = byN[k];
+            if (!t.scored) { cells.push(el("span", { class: "c act", style: "background-color:transparent" })); continue; }
+            const v = t.s[j];
+            const c = el("span", { class: "c", style: `background:rgba(var(--heat-rgb), ${heatAlpha(v).toFixed(3)})` });
+            c.addEventListener("pointermove", (ev) => showTip(ev.clientX, ev.clientY, (T) => T.append(el("div", { class: "tt", text: `${fmt(v, 1)} · ${th.label}` }), el("div", { class: "tm", text: `${k} · ${t.title}` }))));
+            c.addEventListener("pointerleave", hideTip);
+            cells.push(c);
+          }
+        });
+        const row = heatRow(cells); if (key === selTheme) row.classList.add("on"); heat.append(row);
+      }
+    }
+  }
+  const hl = document.getElementById("heatLegend");
+  hl.append(el("span", { text: "Theme words per 100:" }));
+  [0, 1, 3, 6, 10, 16].forEach((v) => hl.append(el("i", { style: `background:rgba(var(--heat-rgb), ${heatAlpha(v).toFixed(3)})` }), el("span", { text: v === 16 ? "16+" : String(v), style: "margin-right:6px" })));
+  hl.append(el("i", { class: "act", style: "background-color:transparent;margin-left:8px" }), el("span", { text: "act, not scored" }));
+  function renderThemeCard() {
+    const j = THI[selTheme], th = TH[j];
+    const grpD = Object.entries(D.con_data).find(([, v]) => v.includes(selTheme)), grpT = Object.entries(D.con_theory).find(([, v]) => v.includes(selTheme));
+    document.getElementById("themeCard").replaceChildren(
+      el("div", { class: "eyebrow", text: "Theme" }), el("div", { class: "tn", text: th.label }),
+      el("p", { style: "color:var(--ink-2)", text: "Words about: " + th.desc.replace(/\.$/, "").toLowerCase() + "." }),
+      el("div", { class: "statrow" },
+        el("div", { class: "stat" }, el("b", { text: `${th.present}/32` }), el("span", { text: "songs with the theme" })),
+        el("div", { class: "stat" }, el("b", { class: "txt", text: `${shortTitle(th.top_title)} (${th.top_n})` }), el("span", { text: "peak song" })),
+        el("div", { class: "stat" }, el("b", { text: pct(th.share) }), el("span", { text: "of the theme in that song" })),
+        el("div", { class: "stat" }, el("b", { text: grpD ? grpD[0] : "none" }), el("span", { text: "group in the data" })),
+        el("div", { class: "stat" }, el("b", { text: grpT ? grpT[0] : "none" }), el("span", { text: "figure in Jung’s theory" }))));
+  }
+  const grpData = document.getElementById("grpData"), grpTheory = document.getElementById("grpTheory");
+  grpData.addEventListener("click", () => { grouping = "data"; grpData.setAttribute("aria-pressed", "true"); grpTheory.setAttribute("aria-pressed", "false"); renderHeat(); });
+  grpTheory.addEventListener("click", () => { grouping = "theory"; grpTheory.setAttribute("aria-pressed", "true"); grpData.setAttribute("aria-pressed", "false"); renderHeat(); });
+  renderHeat(); renderThemeCard();
+
+  // constellations table (no means)
+  (function () {
+    const tb = document.getElementById("consTable");
+    tb.append(el("thead", {}, el("tr", {}, el("th", { text: "Constellation" }), el("th", { text: "Theme" }), el("th", { class: "r", text: "Songs with the theme" }), el("th", { text: "Peak song (#)" }), el("th", { class: "r", text: "Peak score" }), el("th", { class: "r", text: "Share" }))));
+    const body = el("tbody");
+    const groups = [["Persona", "Persona", "stage and voice"], ["Shadow", "Shadow", "the pact"], ["Self", "Self", "mirror and refuge"], [null, "None", "titles and acts"]];
+    for (const [k, nm, sub] of groups) {
+      const members = k ? D.con_data[k] : ["Magic"];
+      members.forEach((key, i) => {
+        const th = TH[THI[key]];
+        const tr = el("tr", { class: i === 0 ? "first" : "" });
+        if (i === 0) tr.append(el("td", { class: "g", rowspan: String(members.length) }, el("span", { class: "sw", style: `--c:${k ? FIGC[k] : "var(--muted)"}` }), nm, el("small", { text: sub })));
+        tr.append(el("td", { text: th.label }), el("td", { class: "r", text: String(th.present) }), el("td", {}, el("span", { class: "t", text: shortTitle(th.top_title) }), ` (${th.top_n})`), el("td", { class: "r", text: fmt(th.top, 1) }), el("td", { class: "r", text: pct(th.share) }));
+        body.append(tr);
+      });
+    }
+    tb.append(body);
+  })();
+
+  // ---------------- line chart (modules 5 and 7)
+  function lineChart(node, order, groups, opts = {}) {
+    const res = E.evaluate(order, groups);
+    const keys = Object.keys(groups).sort((a, b) => ["Persona", "Shadow", "Anima", "Self"].indexOf(a) - ["Persona", "Shadow", "Anima", "Self"].indexOf(b));
+    const W = Math.max(300, node.clientWidth - (opts.pad || 0)), H = opts.h || 300;
+    const m = { l: 34, r: 74, t: opts.bands ? 26 : 12, b: 30 };
+    const n = order.length, iw = W - m.l - m.r, ih = H - m.t - m.b;
+    let ymax = 0; keys.forEach((k) => res.roll[k].forEach((v) => (ymax = Math.max(ymax, v)))); ymax = Math.max(2, Math.ceil(ymax * 2) / 2);
+    const x = (i) => m.l + (n === 1 ? iw / 2 : (i / (n - 1)) * iw), y = (v) => m.t + ih - (v / ymax) * ih;
+    const svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": opts.label || "Figure levels along the order" });
+    if (opts.bands) {
+      SECS.forEach((s, si) => {
+        const idx = order.map((nn, i) => [nn, i]).filter(([nn]) => nn >= s.f && nn <= s.t).map(([, i]) => i);
+        if (!idx.length) return;
+        const x0 = x(idx[0]) - iw / (n - 1) / 2, x1 = x(idx[idx.length - 1]) + iw / (n - 1) / 2;
+        if (si % 2 === 0) svg.append(svgEl("rect", { class: "band", x: Math.max(m.l - 4, x0), y: m.t - 18, width: Math.min(x1, W - m.r + 4) - Math.max(m.l - 4, x0), height: ih + 18 }));
+        const tl = svgEl("text", { class: "lnum", x: (Math.max(m.l, x0) + Math.min(x1, W - m.r)) / 2, y: m.t - 6, "text-anchor": "middle" }); tl.textContent = String(si + 1); svg.append(tl);
+      });
+    }
+    for (let v = 0; v <= ymax + 1e-9; v += ymax > 3 ? 1 : 0.5) {
+      if (Math.abs(v - 1) < 1e-9) continue;
+      svg.append(svgEl("line", { class: "grid", x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) }));
+      const tl = svgEl("text", { x: m.l - 6, y: y(v) + 3.5, "text-anchor": "end" }); tl.textContent = v.toFixed(v % 1 ? 1 : 0); svg.append(tl);
+    }
+    svg.append(svgEl("line", { class: "avg", x1: m.l, x2: W - m.r, y1: y(1), y2: y(1) }));
+    const al = svgEl("text", { x: m.l - 6, y: y(1) + 3.5, "text-anchor": "end" }); al.textContent = "1"; svg.append(al);
+    const step = iw / Math.max(1, n - 1) < 17 ? 2 : 1;
+    order.forEach((nn, i) => { if (i % step) return; const tl = svgEl("text", { x: x(i), y: H - m.b + 15, "text-anchor": "middle" }); tl.textContent = String(nn); svg.append(tl); });
+    const xt = svgEl("text", { x: m.l, y: H - 2 }); xt.textContent = opts.xlabel || "song number, in this order"; svg.append(xt);
+    const ends = [];
+    keys.forEach((k) => {
+      const pts = res.roll[k].map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+      svg.append(svgEl("polyline", { points: pts, fill: "none", stroke: FIGC[k], "stroke-width": 2.2, "stroke-linejoin": "round", "stroke-linecap": "round", "stroke-dasharray": k === "Anima" ? "6 4" : "none" }));
+      ends.push({ k, y: y(res.roll[k][n - 1]) });
+    });
+    ends.sort((a, b) => a.y - b.y); for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 14) ends[i].y = ends[i - 1].y + 14;
+    ends.forEach((e) => { const t = svgEl("text", { class: "lab", x: W - m.r + 8, y: e.y + 4, fill: FIGC[e.k] }); t.style.fill = "var(--ink)"; t.textContent = FIGNAME[e.k]; svg.append(t);
+      svg.append(svgEl("line", { x1: W - m.r + 1, x2: W - m.r + 6, y1: e.y, y2: e.y, stroke: FIGC[e.k], "stroke-width": 2.5 })); });
+    const xh = svgEl("line", { class: "xh", y1: m.t, y2: m.t + ih, visibility: "hidden" }); svg.append(xh);
+    const dots = keys.map((k) => { const c = svgEl("circle", { r: 4, fill: FIGC[k], stroke: "var(--sheet)", "stroke-width": 2, visibility: "hidden" }); svg.append(c); return c; });
+    const hit = svgEl("rect", { x: m.l - 8, y: 0, width: iw + 16, height: H, fill: "transparent", tabindex: "0" }); svg.append(hit);
+    let cur = n - 1;
+    const show = (i, cx, cy) => {
+      cur = i; xh.setAttribute("x1", x(i)); xh.setAttribute("x2", x(i)); xh.setAttribute("visibility", "visible");
+      keys.forEach((k, j) => { dots[j].setAttribute("cx", x(i)); dots[j].setAttribute("cy", y(res.roll[k][i])); dots[j].setAttribute("visibility", "visible"); });
+      const t = byN[order[i]];
+      showTip(cx, cy, (T) => { T.append(el("div", { class: "tt", text: `${t.n} · ${t.title}` }), el("div", { class: "tm", text: `Lesson ${secIdx(t.n) + 1}, ${SECS[secIdx(t.n)].name}` }));
+        keys.slice().sort((a, b) => res.roll[b][i] - res.roll[a][i]).forEach((k) => T.append(tipRow(FIGC[k], fmt(res.roll[k][i]), FIGPLAIN[k], k === "Anima"))); });
+    };
+    hit.addEventListener("pointermove", (ev) => { const r = svg.getBoundingClientRect(); const px = ((ev.clientX - r.left) / r.width) * W; const i = Math.max(0, Math.min(n - 1, Math.round(((px - m.l) / iw) * (n - 1)))); show(i, ev.clientX, ev.clientY); });
+    hit.addEventListener("pointerleave", () => { hideTip(); xh.setAttribute("visibility", "hidden"); dots.forEach((d) => d.setAttribute("visibility", "hidden")); });
+    hit.addEventListener("keydown", (ev) => { if (ev.key === "ArrowRight" || ev.key === "ArrowLeft") { ev.preventDefault(); const i = Math.max(0, Math.min(n - 1, cur + (ev.key === "ArrowRight" ? 1 : -1))); const r = svg.getBoundingClientRect(); show(i, r.left + (x(i) / W) * r.width, r.top + 20); } });
+    hit.addEventListener("blur", () => { hideTip(); xh.setAttribute("visibility", "hidden"); dots.forEach((d) => d.setAttribute("visibility", "hidden")); });
+    node.replaceChildren(svg);
+    return res;
+  }
+  function figLegend(node, groups) {
+    const keys = ["Persona", "Shadow", "Anima", "Self"].filter((k) => groups[k]);
+    node.replaceChildren(...keys.map((k) => el("span", {}, el("i", { class: k === "Anima" ? "dash" : "line", style: `--c:${FIGC[k]}` }), `${FIGNAME[k]} · ${FIGPLAIN[k]}`)));
+  }
+  let lcMode = "theory";
+  const lcNode = document.getElementById("lineChart"), lcLeg = document.getElementById("lcLegend");
+  function renderLC() { const g = lcMode === "data" ? D.con_data : D.con_theory; figLegend(lcLeg, g); lineChart(lcNode, E.curatorOrder, g, { bands: true, h: 320, pad: 44, label: "Jung's figures along the curator's order", xlabel: "song number" }); renderLeadTable(); }
+  const lcData = document.getElementById("lcData"), lcTheory = document.getElementById("lcTheory");
+  lcData.addEventListener("click", () => { lcMode = "data"; lcData.setAttribute("aria-pressed", "true"); lcTheory.setAttribute("aria-pressed", "false"); renderLC(); });
+  lcTheory.addEventListener("click", () => { lcMode = "theory"; lcTheory.setAttribute("aria-pressed", "true"); lcData.setAttribute("aria-pressed", "false"); renderLC(); });
+  function renderLeadTable() {
+    const keys = lcMode === "data" ? ["Persona", "Shadow", "Self"] : ["Persona", "Shadow", "Anima", "Self"];
+    const field = lcMode === "data" ? "con_data" : "con_theory";
+    const tb = document.getElementById("leadTable"); tb.replaceChildren();
+    tb.append(el("thead", {}, el("tr", {}, el("th", { text: "Lesson" }), ...keys.map((k) => el("th", { class: "r" }, el("span", { class: "sw", style: `--c:${FIGC[k]};display:inline-block;width:10px;height:3px;margin-right:5px;vertical-align:3px;background:${FIGC[k]}` }), FIGNAME[k])), el("th", { text: "Leads" }))));
+    const body = el("tbody");
+    SECS.forEach((s, i) => {
+      const lv = s[field];
+      const tr = el("tr", {}, el("td", {}, el("b", { class: "num", style: "color:var(--accent);margin-right:6px", text: String(i + 1) }), s.name));
+      if (!lv) { keys.forEach(() => tr.append(el("td", { class: "r", text: "–" }))); tr.append(el("td", { style: "color:var(--muted)", text: "no words" })); }
+      else {
+        const lead = keys.reduce((a, b) => (lv[b] > lv[a] ? b : a), keys[0]);
+        keys.forEach((k) => tr.append(el("td", { class: "r" + (k === lead ? " lead" : ""), text: fmt(lv[k]) })));
+        tr.append(el("td", { text: FIGPLAIN[lead] }));
+      }
+      body.append(tr);
+    });
+    tb.append(body);
+  }
+  renderLC();
+
+  // ---------------- module 6: counter-magic
+  const OPC = { "Cast a spell": "var(--them)", "Undo the spell": "var(--us)", "Defend against deceit": "var(--self)", "Diagnose the spell inside": "var(--you)" };
+  const CMTXT = {
+    18: "A spell word as a title, over hard techno. No lyrics: the title does the work.",
+    19: "A command as a title. The music pushes; the title orders.",
+    20: "The scent of prey as a title. This track is the exact centre of the playlist, song 20 of 39.",
+    21: "A confession in Italian. The first undoing: a voice admits instead of attacking.",
+    22: "An instrumental intro, heard as a silence. The second undoing.",
+    23: "A charm met with suspicion, between seduction and war. The enemy appears for one of the last times.",
+    24: "A possession, sung in French. The spell is now found inside a close bond.",
+    25: "A diagnosis of the ego and its power. The spell is found inside oneself.",
+    26: "The double, without words. An alter ego answers the diagnosis.",
+  };
+  let cmSel = 20;
+  function renderCM() {
+    const box = document.getElementById("cm");
+    const groups = el("div", { class: "cm-groups" });
+    [["Cast a spell", 3], ["Undo the spell", 2], ["Defend against deceit", 1], ["Diagnose the spell inside", 3]].forEach(([op, span]) => groups.append(el("div", { class: "cm-g", style: `grid-column: span ${span}; --c:${OPC[op]}`, text: op })));
+    const cards = el("div", { class: "cm-cards" });
+    for (let k = 18; k <= 26; k++) {
+      const t = byN[k];
+      const b = el("button", { type: "button", class: "cm-card", style: `--c:${OPC[t.op]}`, "aria-pressed": String(k === cmSel) },
+        el("span", { class: "n", text: String(k) }), el("span", { class: "ttl", text: shortTitle(t.title) }), el("span", { class: "op", text: t.opLabel }), el("span", { class: "lg", text: t.lang }));
+      b.addEventListener("click", () => { cmSel = k; renderCM(); });
+      cards.append(b);
+    }
+    box.replaceChildren(groups, cards);
+    const t = byN[cmSel];
+    document.getElementById("cmDetail").replaceChildren(el("div", { class: "eyebrow", text: `Song ${t.n} · ${t.op}` }), el("div", { style: "font-family:var(--f-display);font-size:1.5rem;line-height:1.15", text: `${t.title}` }), el("div", { class: "by", style: "color:var(--muted);font-size:14px", text: t.artist }), el("p", { text: CMTXT[cmSel] }));
+  }
+  renderCM();
+
+  // ---------------- module 7: the lab
+  const CHECKS = [
+    ["Persona opens", "Is the mask above the Self in the first quarter?"],
+    ["Shadow before Self", "Does the shadow peak before the Self?"],
+    ["Mask lowers", "In the last quarter, is the Self above the mask?"],
+    ["Shadow returns", "After the Self’s peak, does the shadow fall below average and rise again?"],
+    ["“You” rises", "Is “you” more frequent in the last quarter than in the first?"],
+  ];
+  const lab = { mapping: "data", kind: "curator", order: E.curatorOrder.slice(), shufN: 0, label: "" };
+  let tally = { n: 0, all5: 0, dist: [0, 0, 0, 0, 0, 0] };
+  try { const s = JSON.parse(localStorage.getItem("iwin-tally") || "null"); if (s && Array.isArray(s.dist)) tally = s; } catch (e) { /* storage unavailable */ }
+  const saveTally = () => { try { localStorage.setItem("iwin-tally", JSON.stringify(tally)); } catch (e) { /* ignore */ } };
+  function detailText(i, d, pass) {
+    if (i === 0) return `mask ${fmt(d.personaFirst)} · Self ${fmt(d.selfFirst)}`;
+    if (i === 1) return `shadow peaks at song ${d.shadowPeak} · Self at song ${d.selfPeak}`;
+    if (i === 2) return `Self ${fmt(d.selfLast)} · mask ${fmt(d.personaLast)}`;
+    if (i === 3) return pass ? `falls at song ${d.dipAt}, back from song ${d.backAt}` : d.dipAt ? `falls at song ${d.dipAt} and never comes back` : "no fall and return";
+    return `from ${pct(d.youFirst)} to ${pct(d.youLast)} of pronouns`;
+  }
+  function renderLab() {
+    const g = lab.mapping === "data" ? D.con_data : D.con_theory;
+    const strip = document.getElementById("labStrip");
+    strip.replaceChildren(...lab.order.map((n) => { const t = byN[n]; const a = ADDR[t.target]; const b = el("span", { class: `tile ${a.cls}`, style: `--c:var(--${a.cls})`, text: String(n), title: `${n} · ${t.title}` });
+      b.addEventListener("pointermove", (ev) => showTip(ev.clientX, ev.clientY, (T) => T.append(el("div", { class: "tt", text: `${n} · ${t.title}` }), el("div", { class: "tm", text: a.label })))); b.addEventListener("pointerleave", hideTip); return b; }));
+    const res = lineChart(document.getElementById("labChart"), lab.order, g, { bands: lab.kind === "curator", h: 280, label: "Figure levels along the order in the lab", xlabel: lab.kind === "curator" ? "song number" : "song number, in this order" });
+    const passN = res.pass.filter(Boolean).length;
+    document.getElementById("labScore").textContent = `${passN}/5`;
+    document.getElementById("labChecks").replaceChildren(...CHECKS.map(([nm, q], i) => el("li", { class: res.pass[i] ? "ok" : "" },
+      el("span", { class: "ic", "aria-hidden": "true", text: res.pass[i] ? "✓" : "✗" }),
+      el("div", {}, el("div", { class: "cn" }, `${i + 1}. ${nm}`, el("span", { text: res.pass[i] ? "passed" : "failed" })), el("div", { class: "cq", text: q }), el("div", { class: "cd", text: detailText(i, res.detail, res.pass[i]) })))));
+    const smooth = E.coherence(lab.order);
+    document.getElementById("labSmooth").textContent = `Smoothness of this order: ${fmt(smooth)}. Random orders average 0.00; autoplay reaches about 0.56.`;
+    const st = document.getElementById("labStatus");
+    st.replaceChildren(lab.label + " passes ", el("b", { text: `${passN} of 5` }), " checks" + (lab.mapping === "theory" ? " with Jung’s four figures." : " with the three data groups."));
+    renderTally();
+  }
+  function renderTally() {
+    const T = document.getElementById("tallyText");
+    if (!tally.n) T.textContent = "You have not shuffled yet. Press “Shuffle once” or “Shuffle 1,000 times”. Shuffles are scored with the three data groups.";
+    else T.replaceChildren(`You have dealt ${tally.n.toLocaleString("en")} random order${tally.n > 1 ? "s" : ""}. `, el("b", { text: `${tally.all5.toLocaleString("en")} passed all five` }), ` (${(100 * tally.all5 / tally.n).toFixed(1)}%). In our own 10,000 shuffles, 3.8% did.`);
+    const ours = D.shuffle.data.dist, tot = ours.reduce((a, b) => a + b, 0);
+    const shares = ours.map((v) => v / tot), yours = tally.dist.map((v) => (tally.n ? v / tally.n : 0));
+    const max = Math.max(0.3, ...shares, ...yours);
+    const hist = document.getElementById("hist"); hist.replaceChildren();
+    for (let k = 0; k <= 5; k++) {
+      const a = el("div", { style: `height:${(shares[k] / max) * 100}%` }, el("span", { text: (shares[k] * 100).toFixed(k === 5 ? 1 : 0) + "%" }));
+      const b = el("div", { class: "you", style: `height:${(yours[k] / max) * 100}%` });
+      [a, b].forEach((bar, j) => { bar.addEventListener("pointermove", (ev) => showTip(ev.clientX, ev.clientY, (TT) => TT.append(el("div", { class: "tt", text: `${((j ? yours[k] : shares[k]) * 100).toFixed(1)}%` }), el("div", { class: "tm", text: `${j ? "your shuffles" : "our 10,000 shuffles"} · ${k} of 5 checks` })))); bar.addEventListener("pointerleave", hideTip); });
+      hist.append(el("div", { class: "col" }, el("div", { class: "bars" }, a, b), el("div", { class: "xl" + (k === 5 ? " cur" : ""), text: k === 5 ? "5 ★" : String(k) })));
+    }
+  }
+  const scoreOne = (order) => { const p = E.evaluate(order, D.con_data).pass.filter(Boolean).length; tally.n++; tally.dist[p]++; if (p === 5) tally.all5++; };
+  document.getElementById("oCur").addEventListener("click", () => { lab.kind = "curator"; lab.order = E.curatorOrder.slice(); lab.label = "The curator’s order"; renderLab(); });
+  document.getElementById("oShuf").addEventListener("click", () => { lab.kind = "shuffle"; lab.order = E.shuffle(); lab.shufN++; scoreOne(lab.order); saveTally(); lab.label = `Your shuffle no. ${tally.n.toLocaleString("en")}`; renderLab(); });
+  document.getElementById("oShuf1k").addEventListener("click", () => { let o; for (let i = 0; i < 1000; i++) { o = E.shuffle(); scoreOne(o); } saveTally(); lab.kind = "shuffle"; lab.order = o; lab.label = `Your shuffle no. ${tally.n.toLocaleString("en")} (the last of this batch)`; renderLab(); });
+  document.getElementById("oAuto").addEventListener("click", () => { const seeds = E.curatorOrder; const seed = seeds[Math.floor(Math.random() * seeds.length)]; lab.kind = "autoplay"; lab.order = E.autoplay(seed); lab.label = `Autoplay starting from ${byN[seed].title} (${seed})`; renderLab(); });
+  document.getElementById("oRamp").addEventListener("click", () => { lab.kind = "ramp"; lab.order = D.ramp.slice(); lab.label = "The mood sort, from death and loyalty words toward shelter and sight words,"; renderLab(); });
+  document.getElementById("tallyReset").addEventListener("click", () => { tally = { n: 0, all5: 0, dist: [0, 0, 0, 0, 0, 0] }; saveTally(); renderTally(); });
+  const labData = document.getElementById("labData"), labTheory = document.getElementById("labTheory");
+  labData.addEventListener("click", () => { lab.mapping = "data"; labData.setAttribute("aria-pressed", "true"); labTheory.setAttribute("aria-pressed", "false"); renderLab(); });
+  labTheory.addEventListener("click", () => { lab.mapping = "theory"; labTheory.setAttribute("aria-pressed", "true"); labData.setAttribute("aria-pressed", "false"); renderLab(); });
+  lab.label = "The curator’s order";
+  renderLab();
+
+  // ---------------- quizzes
+  const QUIZ = {
+    2: { q: "How many of the last 22 songs still speak to “them”?", opts: ["None", "Two", "Seven", "Eleven"], a: 1, fb: "Two: Lemon (23) and Not Like Us (27). In the first 17 songs, eleven do." },
+    4: { q: "Which song holds two-fifths of all the loyalty words in the playlist?", opts: ["Safe", "LOYALTY.", "Replay", "Sanctuary"], a: 1, fb: "LOYALTY. (song 10) holds 39% of the theme. It opens the pact." },
+    5: { q: "Which figure leads Lesson 3, Integration?", opts: ["The mask", "The shadow", "The soul-guide", "The Self"], a: 3, fb: "The Self, at 2.3 times its average. Wholeness appears early, then the course circles back." },
+    7: { q: "Roughly what share of random orders passes all five checks with the three data groups?", opts: ["About 4%", "About 22%", "About 50%", "All of them"], a: 0, fb: "About 4% (3.8% of 10,000 shuffles). About half pass any single check, and about 22% reach four." },
+  };
+  document.querySelectorAll(".quiz").forEach((box) => {
+    const Q = QUIZ[box.dataset.q]; const fb = el("p", { class: "fb", "aria-live": "polite" });
+    const opts = el("div", { class: "opts" });
+    Q.opts.forEach((o, i) => { const b = el("button", { type: "button", text: o }); b.addEventListener("click", () => {
+      if (i === Q.a) { b.classList.add("right"); fb.textContent = "Right. " + Q.fb; opts.querySelectorAll("button").forEach((x) => (x.disabled = true)); }
+      else { b.classList.add("wrong"); b.disabled = true; fb.textContent = "Not quite. Try another answer."; } }); opts.append(b); });
+    box.replaceChildren(el("span", { class: "eyebrow", text: "Check yourself" }), el("p", { class: "q", text: Q.q }), opts, fb);
+  });
+
+  // ---------------- course map: active module and progress
+  const links = [...document.querySelectorAll("#mapList a")];
+  const mods = links.map((a) => document.querySelector(a.getAttribute("href")));
+  function onScroll() {
+    const mid = window.innerHeight * 0.3; let on = 0;
+    mods.forEach((m, i) => { if (m.getBoundingClientRect().top < mid) on = i; });
+    links.forEach((a, i) => a.classList.toggle("on", i === on));
+    const h = document.documentElement; const p = h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight);
+    document.getElementById("prog").style.width = (Math.min(1, Math.max(0, p)) * 100).toFixed(1) + "%";
+    const act = links[on]; if (act && window.matchMedia("(max-width: 900px)").matches) { const ol = act.closest("ol"); const r = act.getBoundingClientRect(), R = ol.getBoundingClientRect(); if (r.left < R.left || r.right > R.right) ol.scrollLeft += r.left - R.left - 16; }
+  }
+  window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
+  let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { renderLC(); renderLab(); }, 150); });
+  window.addEventListener("scroll", hideTip, { passive: true });
+})();
+</script>
+</body>
+</html>
